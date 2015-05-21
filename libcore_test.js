@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.1.1
+// 0.1.2
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 var fs = require('fs');
@@ -135,6 +135,113 @@ function test0005()
 	return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// libcore.rnd()
+function test0006()
+{
+	function test(min, max)
+	{
+		if (max < min)
+		{
+			var tmp = min;
+			min = max;
+			max = tmp;
+		}
+
+		if ((Math.floor(min) !== min) || (Math.floor(max) !== max))
+		{
+			var x = libcore.rnd(min, max);
+
+			if (x < min)
+			{
+				console.log("ERROR: x < min, " + x);
+				return false;
+			}
+
+			if (x > max)
+			{
+				console.log("ERROR: x > max, " + x);
+				return false;
+			}
+
+			return true;
+		}
+
+		var flag1 = false;
+		var flag2 = false;
+		var flag3 = false;
+
+
+		if (min == max)
+		{
+			flag3 = true;
+		}
+
+		if ((min + 1) == max)
+		{
+			flag3 = true;
+		}
+
+		for (;;)
+		{
+			if ((flag1 !== false)  && (flag2 !== false)  && (flag3 !== false))
+			{
+				break;
+			}
+
+
+			var x = libcore.rnd(min, max);
+
+			if (x < min)
+			{
+				console.log("ERROR: x < min, " + x);
+				return false;
+			}
+
+			if (x > max)
+			{
+				console.log("ERROR: x > max, " + x);
+				return false;
+			}
+
+			if (x == min)
+			{
+				flag1 = true;
+			}
+
+			if (x == max)
+			{
+				flag2 = true;
+			}
+
+			if ((x > min) && (x < max))
+			{
+				flag3 = true;
+			}
+
+		}
+
+		return true;
+	}
+
+
+	if (test(-15, -10) !== true) { console.log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+
+	if (test(-15, 10) !== true) { console.log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+
+	if (test(15, 10) !== true) { console.log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+
+	if (test(10, 10) !== true) { console.log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+
+	if (test(10, 15) !== true) { console.log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+
+	if (test(1.1, 1.3) !== true) { console.log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+
+	if (test(1.3, 1.1) !== true) { console.log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+
+
+	return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function do_it()
 {
 	if (test0001() == false) { return false; }
@@ -142,6 +249,7 @@ function do_it()
 	if (test0003() == false) { return false; }
 	if (test0004() == false) { return false; }
 	if (test0005() == false) { return false; }
+	if (test0006() == false) { return false; }
 
 	return true;
 }
