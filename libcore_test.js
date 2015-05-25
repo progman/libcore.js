@@ -491,6 +491,29 @@ function test0012()
 	return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// libcore.array_crop()
+function test0013()
+{
+	var tmp = [];
+	tmp.push(1);
+	tmp.push(2);
+	tmp.push(3);
+	tmp.push(4);
+	tmp.push(5);
+	tmp.push(6);
+	tmp.push(7);
+
+	var z = libcore.array_crop(tmp, 3);
+
+	if (z.length != 3) { console.log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (z[0] != 1) { console.log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
+	if (z[1] != 2) { console.log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
+	if (z[2] != 3) { console.log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
+
+
+	return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function do_it()
 {
 	if (test0001() == false) { return false; }
@@ -505,6 +528,7 @@ function do_it()
 	if (test0010() == false) { return false; }
 	if (test0011() == false) { return false; }
 	if (test0012() == false) { return false; }
+	if (test0013() == false) { return false; }
 
 	return true;
 }
