@@ -514,6 +514,34 @@ function test0013()
 	return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// libcore.array_expand()
+function test0014()
+{
+	var a = [];
+	var b = libcore.array_expand(a, 2);
+
+
+	if ((b instanceof Array) === false) { console.log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (b.length != 0) { console.log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
+
+
+	var x = [];
+	x.push(1);
+	var y = libcore.array_expand(x, 3);
+
+
+	if ((y instanceof Array) === false) { console.log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
+	if (y.length != 3) { console.log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
+
+
+	if (y[0] != 1) { console.log('ERROR[' + arguments.callee.name + '()]: step005'); return false; }
+	if (y[1] != 1) { console.log('ERROR[' + arguments.callee.name + '()]: step006'); return false; }
+	if (y[2] != 1) { console.log('ERROR[' + arguments.callee.name + '()]: step007'); return false; }
+
+
+	return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function do_it()
 {
 	if (test0001() == false) { return false; }
@@ -529,6 +557,7 @@ function do_it()
 	if (test0011() == false) { return false; }
 	if (test0012() == false) { return false; }
 	if (test0013() == false) { return false; }
+	if (test0014() == false) { return false; }
 
 	return true;
 }
