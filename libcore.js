@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.1.8
+// 0.1.9
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 var libcore =
@@ -13,6 +13,7 @@ var libcore =
 	"str2sint"      : libcore__str2sint,
 	"min"           : libcore__min,
 	"max"           : libcore__max,
+	"cmp"           : libcore__cmp,
 	"clone"         : libcore__clone,
 	"uniq"          : libcore__uniq,
 	"rnd"           : libcore__rnd,
@@ -211,6 +212,144 @@ function libcore__max(val1, val2)
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
+ * compare two arguments
+ * \param[in] source argument one
+ * \param[in] target argument two
+ * \param[in] flag_identity flag for enable hard identity
+ * \return result
+ */
+function libcore__cmp(source, target, flag_identity)
+{
+	if (typeof flag_identity !== 'boolean')
+	{
+		flag_identity = false;
+	}
+
+
+	if (typeof source !== typeof target) return false;
+
+
+	if (typeof source === 'boolean')
+	{
+		return (source === target) ? true : false;
+	}
+
+
+	if (typeof source === 'number')
+	{
+		return (source === target) ? true : false;
+	}
+
+
+	if (typeof source === 'string')
+	{
+		return (source === target) ? true : false;
+	}
+
+
+	if (typeof source === 'null')
+	{
+		return (source === target) ? true : false;
+	}
+
+
+	if (typeof source === 'undefined')
+	{
+		return (source === target) ? true : false;
+	}
+
+
+	if (typeof source === 'function')
+	{
+		return (source.toString() === target.toString()) ? true : false;
+	}
+
+
+	if ((source instanceof RegExp) === true)
+	{
+		return (source === target) ? true : false;
+	}
+
+
+	if ((source instanceof Date) === true)
+	{
+		if ((source.getTime() === target.getTime()) && (source.getMilliseconds() === target.getMilliseconds()))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+
+	if ((source instanceof Array) === true)
+	{
+		if (source.length !== target.length) return false;
+
+		for (var i=0; i < source.length; i++)
+		{
+			if (libcore.cmp(source[i], target[i], flag_identity) === false)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+
+	if (typeof source === 'object')
+	{
+		if (flag_identity === false)
+		{
+			for (target_field in target)
+			{
+				var flag_found = false;
+				for (source_field in source)
+				{
+					if (source_field === target_field)
+					{
+						if (libcore.cmp(source[source_field], target[target_field], flag_identity) === true)
+						{
+							flag_found = true;
+							break;
+						}
+					}
+				}
+				if (flag_found === false) return false;
+			}
+		}
+		else
+		{
+			for (source_field in source)
+			{
+				var flag_found = false;
+				for (target_field in target)
+				{
+					if (source_field === target_field)
+					{
+						if (libcore.cmp(source[source_field], target[target_field], flag_identity) === true)
+						{
+							flag_found = true;
+							break;
+						}
+					}
+				}
+				if (flag_found === false) return false;
+			}
+		}
+
+		return true;
+	}
+
+
+	libcore.log('ERROR[libcore.cmp()]: not implementation type ' + typeof source);
+
+
+	return false;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
  * clone variable
  * \param[in] source source variable
  * \return cloned variable
@@ -293,7 +432,7 @@ function libcore__clone(source)
 	}
 
 
-	libcore.log('libcore.clone(): strange');
+	libcore.log('WARNING[libcore.clone()]: not implementation type ' + typeof source);
 	return JSON.parse(JSON.stringify(source));
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -384,35 +523,19 @@ function libcore__rnd(min, max)
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * crop string
+ * \param[in] source string
+ * \param[in] limit length limit
+ * \return croped string
+ */
 function libcore__str_crop(source, limit)
 {
-//if (typeof size === 'undefined') size = 37;
-//<-->var size = 37;
-
 	if (source.length < limit)
 	{
 		return source;
 	}
 
-
-
 	return source.substr(0, limit);
-/*
-<-->var tmp = '';
-<-->for (var i=0; i < limit; i++)
-<-->{
-<--><-->tmp += source[i];
-<-->}
-
-//<>tmp += '...';
-//var tmp = str.substr(0, size) + '...';
-
-
-//libcore.log("----------------------------------");
-//libcore.log('--------->' + tmp);
-//libcore.log("----------------------------------");
-
-<-->return tmp;
-*/
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
