@@ -520,7 +520,6 @@ function test0014()
 	var a = [];
 	var b = libcore.array_expand(a, 2);
 
-
 	if ((b instanceof Array) === false) { console.log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
 	if (b.length != 0) { console.log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
 
@@ -529,7 +528,6 @@ function test0014()
 	x.push(1);
 	var y = libcore.array_expand(x, 3);
 
-
 	if ((y instanceof Array) === false) { console.log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
 	if (y.length != 3) { console.log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
 
@@ -537,6 +535,37 @@ function test0014()
 	if (y[0] != 1) { console.log('ERROR[' + arguments.callee.name + '()]: step005'); return false; }
 	if (y[1] != 1) { console.log('ERROR[' + arguments.callee.name + '()]: step006'); return false; }
 	if (y[2] != 1) { console.log('ERROR[' + arguments.callee.name + '()]: step007'); return false; }
+
+
+	return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// libcore.array_expand()
+function test0015()
+{
+	var a = [];
+	var b = libcore.array_limit(a, 2);
+
+	if ((b instanceof Array) === false) { console.log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (b.length != 0) { console.log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
+
+
+	var i = [];
+	i.push(1);
+	var j = libcore.array_limit(i, 2);
+
+	if ((j instanceof Array) === false) { console.log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
+	if (j.length != 2) { console.log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
+
+
+	var x = [];
+	x.push(1);
+	x.push(1);
+	x.push(1);
+	var y = libcore.array_limit(x, 2);
+
+	if ((y instanceof Array) === false) { console.log('ERROR[' + arguments.callee.name + '()]: step005'); return false; }
+	if (y.length != 2) { console.log('ERROR[' + arguments.callee.name + '()]: step006'); return false; }
 
 
 	return true;
@@ -558,6 +587,7 @@ function do_it()
 	if (test0012() == false) { return false; }
 	if (test0013() == false) { return false; }
 	if (test0014() == false) { return false; }
+	if (test0015() == false) { return false; }
 
 	return true;
 }
