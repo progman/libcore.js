@@ -6,6 +6,6 @@ then
 	exit 1;
 fi
 
-nodejs libcore_test.js;
+nodejs test.js;
 
 exit 0;
