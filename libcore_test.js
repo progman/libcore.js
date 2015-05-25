@@ -462,6 +462,35 @@ function test0011()
 	return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// libcore.array_merge()
+function test0012()
+{
+	var source1 = [];
+	var source2 = [];
+
+	source1.push(1);
+	source1.push(2);
+	source2.push(3);
+	source2.push(4);
+	source2.push(5);
+
+	var target = libcore.array_merge(source1, source2);
+
+	if (target.length != 5) { console.log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+
+	source1[0] = 6;
+	source2[0] = 7;
+
+	if (target[0] != 1) { console.log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
+	if (target[1] != 2) { console.log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
+	if (target[2] != 3) { console.log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
+	if (target[3] != 4) { console.log('ERROR[' + arguments.callee.name + '()]: step005'); return false; }
+	if (target[4] != 5) { console.log('ERROR[' + arguments.callee.name + '()]: step006'); return false; }
+
+
+	return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function do_it()
 {
 	if (test0001() == false) { return false; }
@@ -475,6 +504,7 @@ function do_it()
 	if (test0009() == false) { return false; }
 	if (test0010() == false) { return false; }
 	if (test0011() == false) { return false; }
+	if (test0012() == false) { return false; }
 
 	return true;
 }
