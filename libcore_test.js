@@ -612,6 +612,86 @@ function test0016()
 	return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// libcore.array_filter()
+function test0017()
+{
+	var source1 = [];
+	source1.push(1);
+	source1.push(666);
+	source1.push(2);
+	source1.push(666);
+	source1.push(666);
+	source1.push(3);
+	source1.push(666);
+	source1.push(666);
+	source1.push(666);
+
+	var target1 = libcore.array_filter(source1, 666, true, false);
+
+	if (target1.length != 3) { console.log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+
+	if (target1[0] != 1) { console.log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
+	if (target1[1] != 2) { console.log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
+	if (target1[2] != 3) { console.log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
+
+
+	var source2 = [];
+	source2.push({ "id" : 1,   "value" : "x1"  });
+	source2.push({ "id" : 2,   "value" : "x2"  });
+	source2.push({ "id" : 666, "value" : "666" });
+	source2.push({ "id" : 666, "value" : "666" });
+	source2.push({ "id" : 3,   "value" : "x3"  });
+	source2.push({ "id" : 666, "value" : "666" });
+	source2.push({ "id" : 666, "value" : "666" });
+	source2.push({ "id" : 666, "value" : "666" });
+	source2.push({ "id" : 666, "value" : "777" });
+
+	var target2 = libcore.array_filter(source2, { "id" : 666, "value" : "666" }, true, false);
+
+	if (target2.length != 4)  { console.log('ERROR[' + arguments.callee.name + '()]: step005'); return false; }
+	if (target2[0].id != 1)   { console.log('ERROR[' + arguments.callee.name + '()]: step006'); return false; }
+	if (target2[1].id != 2)   { console.log('ERROR[' + arguments.callee.name + '()]: step007'); return false; }
+	if (target2[2].id != 3)   { console.log('ERROR[' + arguments.callee.name + '()]: step008'); return false; }
+	if (target2[3].id != 666) { console.log('ERROR[' + arguments.callee.name + '()]: step009'); return false; }
+
+
+	var target3 = libcore.array_filter(source2, { "id" : 666 }, true, false);
+
+	if (target3.length != 3)  { console.log('ERROR[' + arguments.callee.name + '()]: step010'); return false; }
+
+	if (target3[0].id != 1)   { console.log('ERROR[' + arguments.callee.name + '()]: step011'); return false; }
+	if (target3[1].id != 2)   { console.log('ERROR[' + arguments.callee.name + '()]: step012'); return false; }
+	if (target3[2].id != 3)   { console.log('ERROR[' + arguments.callee.name + '()]: step013'); return false; }
+
+
+	var target4 = libcore.array_filter(source2, { "id" : 666 }, true, true);
+
+	if (target4.length != 9)  { console.log('ERROR[' + arguments.callee.name + '()]: step014'); return false; }
+
+
+	var target5 = libcore.array_filter(source2, { "value" : "777" }, true, true);
+
+	if (target5.length != 9)  { console.log('ERROR[' + arguments.callee.name + '()]: step015'); return false; }
+
+
+	var target6 = libcore.array_filter(source2, { "value" : "777" }, true, false);
+
+	if (target6.length != 8)  { console.log('ERROR[' + arguments.callee.name + '()]: step016'); return false; }
+
+
+	var target7 = libcore.array_filter(source2, { "value" : 777 }, true, false);
+
+	if (target7.length != 9)  { console.log('ERROR[' + arguments.callee.name + '()]: step017'); return false; }
+
+
+	var target8 = libcore.array_filter(source2, { "value" : "777" }, false, false);
+
+	if (target8.length != 1)  { console.log('ERROR[' + arguments.callee.name + '()]: step018'); return false; }
+
+
+	return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function do_it()
 {
 	if (test0001() == false) { return false; }
@@ -630,6 +710,7 @@ function do_it()
 	if (test0014() == false) { return false; }
 	if (test0015() == false) { return false; }
 	if (test0016() == false) { return false; }
+	if (test0017() == false) { return false; }
 
 	return true;
 }
