@@ -130,7 +130,7 @@ function test0005()
 	if (libcore.cmp(d1, d2)  == true)   { console.log('ERROR[' + arguments.callee.name + '()]: step011'); return false; }
 
 	var d3 = new Date();
-	var d4 = new Date(d3);
+	var d4 = new Date(d3.getTime());
 
 	if (libcore.cmp(d3, d3)  == false)  { console.log('ERROR[' + arguments.callee.name + '()]: step012'); return false; }
 	if (libcore.cmp(d3, d4)  == false)  { console.log('ERROR[' + arguments.callee.name + '()]: step013'); return false; }
