@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.2.2
+// 0.2.3
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 var libcore =
@@ -917,7 +917,7 @@ function libcore__jdraw(source, source_field, flag_shift, tab, max_width)
 
 		for (var i=0; i < source.length; i++)
 		{
-			body += jprint(source[i], undefined, flag_shift, tab + "\t");
+			body += libcore.jdraw(source[i], undefined, flag_shift, tab + "\t");
 
 			if (i != (source.length - 1))
 			{
@@ -957,7 +957,7 @@ function libcore__jdraw(source, source_field, flag_shift, tab, max_width)
 		{
 			source_field = field_list[i];
 
-			body += jprint(source[source_field], source_field, flag_shift, tab + "\t", max_width);
+			body += libcore.jdraw(source[source_field], source_field, flag_shift, tab + "\t", max_width);
 
 			if (i != (field_list.length - 1))
 			{
@@ -975,7 +975,7 @@ function libcore__jdraw(source, source_field, flag_shift, tab, max_width)
 	}
 
 	var body = '';
-	body += 'ERROR[libcore.jprint()]: not implementation type ' + typeof source;
+	body += 'ERROR[libcore.jdraw()]: not implementation type ' + typeof source;
 
 	return body;
 }
