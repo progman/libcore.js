@@ -418,17 +418,33 @@ function test0010()
 
 	if (test(-15, -10) !== true) { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
 
-	if (test(-15, 10) !== true) { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (test(-15, 10) !== true) { test_log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
 
-	if (test(15, 10) !== true) { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (test(15, 10) !== true) { test_log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
 
-	if (test(10, 10) !== true) { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (test(10, 10) !== true) { test_log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
 
-	if (test(10, 15) !== true) { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (test(10, 15) !== true) { test_log('ERROR[' + arguments.callee.name + '()]: step005'); return false; }
 
-	if (test(1.1, 1.3) !== true) { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (test(1.1, 1.3) !== true) { test_log('ERROR[' + arguments.callee.name + '()]: step006'); return false; }
 
-	if (test(1.3, 1.1) !== true) { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (test(1.3, 1.1) !== true) { test_log('ERROR[' + arguments.callee.name + '()]: step007'); return false; }
+
+
+	var max = 1000;
+	for (var i=0; i < (max + 1); i++)
+	{
+		for ( ; ; )
+		{
+			var x = libcore.rnd(0, max);
+			if (x == i) break;
+
+			if (x == (max + 1))
+			{
+				test_log('ERROR[' + arguments.callee.name + '()]: step008'); return false;
+			}
+		}
+	}
 
 
 	return true;
