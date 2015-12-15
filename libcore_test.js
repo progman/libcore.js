@@ -2,13 +2,13 @@
 // 0.1.7
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-function test_log()
+function test_log(msg)
 {
-	console.log('ok, test passed');
+	console.log(msg);
 
 	if (typeof alert === 'function')
 	{
-		alert('ok, test passed');
+		alert(msg);
 	}
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -635,6 +635,7 @@ function test0016()
 
 	if (libcore.cmp(a, b, true) === false)
 	{
+		test_log('ERROR[' + arguments.callee.name + '()]: step005');
 		return false;
 	}
 
@@ -724,28 +725,28 @@ function test0017()
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function do_it()
 {
-	if (test0001() == false) { return false; }
-	if (test0002() == false) { return false; }
-	if (test0003() == false) { return false; }
-	if (test0004() == false) { return false; }
-	if (test0005() == false) { return false; }
-	if (test0006() == false) { return false; }
-	if (test0007() == false) { return false; }
-	if (test0008() == false) { return false; }
-	if (test0009() == false) { return false; }
-	if (test0010() == false) { return false; }
-	if (test0011() == false) { return false; }
-	if (test0012() == false) { return false; }
-	if (test0013() == false) { return false; }
-	if (test0014() == false) { return false; }
-	if (test0015() == false) { return false; }
-	if (test0016() == false) { return false; }
-	if (test0017() == false) { return false; }
+	if (test0001() === false) { return false; }
+	if (test0002() === false) { return false; }
+	if (test0003() === false) { return false; }
+	if (test0004() === false) { return false; }
+	if (test0005() === false) { return false; }
+	if (test0006() === false) { return false; }
+	if (test0007() === false) { return false; }
+	if (test0008() === false) { return false; }
+	if (test0009() === false) { return false; }
+	if (test0010() === false) { return false; }
+	if (test0011() === false) { return false; }
+	if (test0012() === false) { return false; }
+	if (test0013() === false) { return false; }
+	if (test0014() === false) { return false; }
+	if (test0015() === false) { return false; }
+	if (test0016() === false) { return false; }
+	if (test0017() === false) { return false; }
 
 	return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-if (do_it() == true)
+if (do_it() === true)
 {
 	test_log('ok, test passed');
 }
