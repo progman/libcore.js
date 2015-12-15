@@ -694,6 +694,20 @@ function libcore__array_remix(source)
 	if (source.length === 1) return source;
 
 
+	var target = libcore.clone(source);
+	for (var i = target.length - 1; i > -1; i--)
+	{
+		var j = libcore.rnd(0, i);
+
+		if (j !== i)
+		{
+			var item  = libcore.clone(target[i]);
+			target[i] = libcore.clone(target[j]);
+			target[j] = item;
+		}
+	}
+
+/*
 	var index_list = [];
 	for (var i=0; i < source.length; i++)
 	{
@@ -711,7 +725,7 @@ function libcore__array_remix(source)
 
 		index_list.splice(index, 1);
 	}
-
+*/
 
 	return target;
 }
