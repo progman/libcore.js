@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.2.4
+// 0.2.5
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 var libcore =
@@ -15,8 +15,8 @@ var libcore =
 	"max"           : libcore__max,
 	"cmp"           : libcore__cmp,
 	"clone"         : libcore__clone,
-	"uniq"          : libcore__uniq,
 	"sort"          : libcore__sort,
+	"uniq"          : libcore__uniq,
 	"rnd"           : libcore__rnd,
 	"str_crop"      : libcore__str_crop,
 	"array_merge"   : libcore__array_merge,
@@ -419,7 +419,14 @@ function libcore__clone(source)
 
 	if ((source instanceof Array) === true)
 	{
-		return source.slice(0);
+//		return source.slice(0);
+
+		var tmp = [];
+		for (var i=0; i < source.length; i++)
+		{
+			tmp.push(libcore.clone(source[i]));
+		}
+		return tmp;
 	}
 
 
@@ -440,65 +447,6 @@ function libcore__clone(source)
 
 	libcore.log('WARNING[libcore.clone()]: not implementation type ' + typeof source);
 	return JSON.parse(JSON.stringify(source));
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * uniq array
- * \param[in] input input array
- * \param[in] field_name field name if array of objects
- * \return uniq array
- */
-function libcore__uniq(input, field_name)
-{
-	if ((input instanceof Array) === false)
-	{
-		return [];
-	}
-
-
-	if (typeof field_name !== "string")
-	{
-		var output = [];
-		var input_free = libcore.clone(input); // отвязываем массив
-		input_free.sort();
-
-		var x_old = null;
-		for (var i=0; i < input_free.length; i++)
-		{
-			var x = input_free[i];
-			if (x !== x_old)
-			{
-				output.push(x);
-				x_old = x;
-			}
-		}
-		return output;
-	}
-
-
-	var output = [];
-	var field_list = [];
-
-	for (var i=0; i < input.length; i++)
-	{
-		field_list.push(input[i][field_name]);
-	}
-	field_list = libcore__uniq(field_list);
-
-	for (var i=0; i < field_list.length; i++)
-	{
-		for (var j=0; j < input.length; j++)
-		{
-			if (input[j][field_name] === field_list[i])
-			{
-				output.push(input[j]);
-				break;
-			}
-		}
-	}
-
-
-	return output;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
@@ -539,10 +487,40 @@ function libcore__sort(input, field_name)
 		{
 			if (input_free[j][field_name] === field_list[i])
 			{
+				output.push(libcore.clone(input_free[j]));
 				input_free[j][field_name] = null;
-				output.push(input_free[j]);
 				break;
 			}
+		}
+	}
+
+
+	return output;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * uniq array
+ * \param[in] input input array
+ * \param[in] field_name field name if array of objects
+ * \return uniq array
+ */
+function libcore__uniq(input, field_name)
+{
+	var input_free = libcore.sort(input, field_name);
+
+
+	var value;
+	var output = [];
+	for (var i=0; i < input_free.length; i++)
+	{
+		if
+		(
+			(i === 0) ||
+			((i !== 0) && (libcore.cmp(value, input_free[i], true) === false))
+		)
+		{
+			value = input_free[i];
+			output.push(value);
 		}
 	}
 
