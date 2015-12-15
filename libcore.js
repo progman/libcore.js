@@ -463,6 +463,45 @@ function libcore__sort(input, field_name)
 	}
 
 
+	var output = libcore.clone(input); // отвязываем массив
+
+
+	if (typeof field_name !== "string")
+	{
+		output.sort();
+	}
+	else
+	{
+		output.sort(function(a, b)
+		{
+			if (a[field_name] < b[field_name])
+			{
+				return -1;
+			}
+
+			if (a[field_name] > b[field_name])
+			{
+				return 1;
+			}
+
+			if (a[field_name] === b[field_name])
+			{
+				return 0;
+			}
+		});
+	}
+
+
+	return output;
+
+
+/*
+	if ((input instanceof Array) === false)
+	{
+		return [];
+	}
+
+
 	if (typeof field_name !== "string")
 	{
 		var output = libcore.clone(input); // отвязываем массив
@@ -496,6 +535,7 @@ function libcore__sort(input, field_name)
 
 
 	return output;
+*/
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
