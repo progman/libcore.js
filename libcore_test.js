@@ -628,14 +628,26 @@ function test0016()
 
 	for (var i=0; i < 1000; i++)
 	{
-		x.push(libcore.rnd(0, 255));
+		a.push(libcore.rnd(0, 255));
 	}
 
 	var b = libcore.array_remix(a);
 
-	if (libcore.cmp(a, b, true) === false)
+
+	if (libcore.cmp(a, b, true) === true)
 	{
 		test_log('ERROR[' + arguments.callee.name + '()]: step005');
+		return false;
+	}
+
+
+	var a_sort = libcore.sort(a);
+	var b_sort = libcore.sort(b);
+
+
+	if (libcore.cmp(a_sort, b_sort, true) === false)
+	{
+		test_log('ERROR[' + arguments.callee.name + '()]: step006');
 		return false;
 	}
 

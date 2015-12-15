@@ -16,6 +16,7 @@ var libcore =
 	"cmp"           : libcore__cmp,
 	"clone"         : libcore__clone,
 	"uniq"          : libcore__uniq,
+	"sort"          : libcore__sort,
 	"rnd"           : libcore__rnd,
 	"str_crop"      : libcore__str_crop,
 	"array_merge"   : libcore__array_merge,
@@ -455,11 +456,9 @@ function libcore__uniq(input, field_name)
 	}
 
 
-	var output = [];
-
-
 	if (typeof field_name !== "string")
 	{
+		var output = [];
 		var input_free = libcore.clone(input); // отвязываем массив
 		input_free.sort();
 
@@ -473,25 +472,76 @@ function libcore__uniq(input, field_name)
 				x_old = x;
 			}
 		}
+		return output;
 	}
-	else
-	{
-		var field_list = [];
-		for (var i=0; i < input.length; i++)
-		{
-			field_list.push(input[i][field_name]);
-		}
-		field_list = libcore__uniq(field_list);
 
-		for (var i=0; i < field_list.length; i++)
+
+	var output = [];
+	var field_list = [];
+
+	for (var i=0; i < input.length; i++)
+	{
+		field_list.push(input[i][field_name]);
+	}
+	field_list = libcore__uniq(field_list);
+
+	for (var i=0; i < field_list.length; i++)
+	{
+		for (var j=0; j < input.length; j++)
 		{
-			for (var j=0; j < input.length; j++)
+			if (input[j][field_name] === field_list[i])
 			{
-				if (input[j][field_name] === field_list[i])
-				{
-					output.push(input[j]);
-					break;
-				}
+				output.push(input[j]);
+				break;
+			}
+		}
+	}
+
+
+	return output;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * sort array
+ * \param[in] input input array
+ * \param[in] field_name field name if array of objects
+ * \return sort array
+ */
+function libcore__sort(input, field_name)
+{
+	if ((input instanceof Array) === false)
+	{
+		return [];
+	}
+
+
+	if (typeof field_name !== "string")
+	{
+		var output = libcore.clone(input); // отвязываем массив
+		output.sort();
+		return output;
+	}
+
+
+	var output = [];
+	var input_free = libcore.clone(input); // отвязываем массив
+	var field_list = [];
+
+	for (var i=0; i < input_free.length; i++)
+	{
+		field_list.push(input_free[i][field_name]);
+	}
+	field_list = libcore__sort(field_list);
+
+	for (var i=0; i < field_list.length; i++)
+	{
+		for (var j=0; j < input_free.length; j++)
+		{
+			if (input_free[j][field_name] === field_list[i])
+			{
+				input_free[j][field_name] = null;
+				output.push(input_free[j]);
+				break;
 			}
 		}
 	}
