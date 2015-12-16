@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.2.5
+// 0.2.6
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 var libcore =
@@ -452,10 +452,10 @@ function libcore__clone(source)
 /**
  * sort array
  * \param[in] input input array
- * \param[in] field_name field name if array of objects
+ * \param[in] sort_factor field name or sort function for array of objects
  * \return sort array
  */
-function libcore__sort(input, field_name)
+function libcore__sort(input, sort_factor)
 {
 	if ((input instanceof Array) === false)
 	{
@@ -466,29 +466,39 @@ function libcore__sort(input, field_name)
 	var output = libcore.clone(input); // отвязываем массив
 
 
-	if (typeof field_name !== "string")
+	for (;;)
 	{
-		output.sort();
-	}
-	else
-	{
-		output.sort(function(a, b)
+		if (typeof sort_factor === "function")
 		{
-			if (a[field_name] < b[field_name])
-			{
-				return -1;
-			}
+			output.sort(sort_factor);
+			break;
+		}
 
-			if (a[field_name] > b[field_name])
-			{
-				return 1;
-			}
 
-			if (a[field_name] === b[field_name])
+		if (typeof sort_factor === "string")
+		{
+			output.sort(function(a, b)
 			{
-				return 0;
-			}
-		});
+				if (a[sort_factor]  <  b[sort_factor])
+				{
+					return -1;
+				}
+
+				if (a[sort_factor]  >  b[sort_factor])
+				{
+					return 1;
+				}
+
+				if (a[sort_factor] === b[sort_factor])
+				{
+					return 0;
+				}
+			});
+		}
+
+
+		output.sort();
+		break;
 	}
 
 
@@ -541,12 +551,12 @@ function libcore__sort(input, field_name)
 /**
  * uniq array
  * \param[in] input input array
- * \param[in] field_name field name if array of objects
+ * \param[in] sort_factor field name or sort function for array of objects
  * \return uniq array
  */
-function libcore__uniq(input, field_name)
+function libcore__uniq(input, sort_factor)
 {
-	var input_free = libcore.sort(input, field_name);
+	var input_free = libcore.sort(input, sort_factor);
 
 
 	var value;
