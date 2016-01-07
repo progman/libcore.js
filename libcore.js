@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.2.7
+// 0.2.8
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 var libcore =
@@ -897,119 +897,103 @@ function libcore__jdraw(source, source_field, flag_shift, tab, max_width)
 	if (typeof source === 'boolean')
 	{
 		var body = '';
-		if (source_field != '')
+		if (source_field !== '')
 		{
 			body += tab + '"' + source_field + '"' + shift(flag_shift, source_field.length, max_width) + ': ' + source;
+			return body;
 		}
-		else
-		{
-			body += tab + source;
-		}
+		body += tab + source;
 		return body;
 	}
 
 	if (typeof source === 'number')
 	{
 		var body = '';
-		if (source_field != '')
+		if (source_field !== '')
 		{
 			body += tab + '"' + source_field + '"' + shift(flag_shift, source_field.length, max_width) + ': ' + source;
+			return body;
 		}
-		else
-		{
-			body += tab + source;
-		}
+		body += tab + source;
 		return body;
 	}
 
 	if (typeof source === 'string')
 	{
 		var body = '';
-		if (source_field != '')
+		if (source_field !== '')
 		{
 			body += tab + '"' + source_field + '"' + shift(flag_shift, source_field.length, max_width) + ': "' + source + '"';
+			return body;
 		}
-		else
-		{
-			body += tab + '"' + source + '"';
-		}
+		body += tab + '"' + source + '"';
 		return body;
 	}
 
 	if (source === null)
 	{
 		var body = '';
-		if (source_field != '')
+		if (source_field !== '')
 		{
 			body += tab + '"' + source_field + '"' + shift(flag_shift, source_field.length, max_width) + ': ' + source;
+			return body;
 		}
-		else
-		{
-			body += tab + source;
-		}
+		body += tab + source;
 		return body;
 	}
 
 	if (typeof source === 'undefined')
 	{
 		var body = '';
-		if (source_field != '')
+		if (source_field !== '')
 		{
 			body += tab + '"' + source_field + '"' + shift(flag_shift, source_field.length, max_width) + ': ' + source;
+			return body;
 		}
-		else
-		{
-			body += tab + source;
-		}
+		body += tab + source;
 		return body;
 	}
 
 	if (typeof source === 'function')
 	{
 		var body = '';
-		if (source_field != '')
+		if (source_field !== '')
 		{
 			body += tab + '"' + source_field + '"' + shift(flag_shift, source_field.length, max_width) + ': ' + source;
+			return body;
 		}
-		else
-		{
-			body += tab + source;
-		}
+		body += tab + source;
 		return body;
 	}
 
 	if ((source instanceof RegExp) === true)
 	{
 		var body = '';
-		if (source_field != '')
+		if (source_field !== '')
 		{
 			body += tab + '"' + source_field + '"' + shift(flag_shift, source_field.length, max_width) + ': ' + source;
+			return body;
 		}
-		else
-		{
-			body += tab + source;
-		}
+		body += tab + source;
 		return body;
 	}
 
 	if ((source instanceof Date) === true)
 	{
 		var body = '';
-		if (source_field != '')
+		if (source_field !== '')
 		{
 			body += tab + '"' + source_field + '"' + shift(flag_shift, source_field.length, max_width) + ': ' + source;
+			return body;
 		}
-		else
-		{
-			body += tab + source;
-		}
+		body += tab + source;
 		return body;
 	}
 
 	if ((source instanceof Array) === true)
 	{
 		var body = '';
-		if (source_field != '')
+		if (source_field !== '')
 		{
 			body += tab + '"' + source_field + '"' + shift(flag_shift, source_field.length, max_width) + ':' + "\n";
 		}
@@ -1019,7 +1003,7 @@ function libcore__jdraw(source, source_field, flag_shift, tab, max_width)
 		{
 			body += libcore.jdraw(source[i], undefined, flag_shift, tab + "\t");
 
-			if (i != (source.length - 1))
+			if (i !== (source.length - 1))
 			{
 				body += ",\n";
 			}
@@ -1036,7 +1020,7 @@ function libcore__jdraw(source, source_field, flag_shift, tab, max_width)
 	if (typeof source === 'object')
 	{
 		var body = '';
-		if (source_field != '')
+		if (source_field !== '')
 		{
 			body += tab + '"' + source_field + '"' + shift(flag_shift, source_field.length, max_width) + ':' + "\n";
 		}
@@ -1059,7 +1043,7 @@ function libcore__jdraw(source, source_field, flag_shift, tab, max_width)
 
 			body += libcore.jdraw(source[source_field], source_field, flag_shift, tab + "\t", max_width);
 
-			if (i != (field_list.length - 1))
+			if (i !== (field_list.length - 1))
 			{
 				body += ",\n";
 			}
