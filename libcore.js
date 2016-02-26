@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.3.0
+// 0.3.1
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 var libcore =
@@ -38,6 +38,8 @@ var libcore =
  */
 function libcore__log(msg, flag_enable)
 {
+	"use strict";
+
 	if (typeof console === "undefined")
 	{
 		return;
@@ -57,6 +59,8 @@ function libcore__log(msg, flag_enable)
  */
 function libcore__get_microtime()
 {
+	"use strict";
+
 	var current_date = new Date();
 	return current_date.getTime();
 }
@@ -67,6 +71,8 @@ function libcore__get_microtime()
  */
 function libcore__get_unixtime()
 {
+	"use strict";
+
 	var unixtime = libcore.get_microtime() / 1000;
 
 	return unixtime;
@@ -79,6 +85,8 @@ function libcore__get_unixtime()
  */
 function libcore__is_uint(val)
 {
+	"use strict";
+
 	if ((typeof val !== 'number') && (typeof val !== 'string'))
 	{
 		return false;
@@ -116,6 +124,8 @@ function libcore__is_uint(val)
  */
 function libcore__is_sint(val)
 {
+	"use strict";
+
 	if ((typeof val !== 'number') && (typeof val !== 'string'))
 	{
 		return false;
@@ -154,6 +164,8 @@ function libcore__is_sint(val)
  */
 function libcore__str2uint(str, value_default)
 {
+	"use strict";
+
 	if (typeof value_default !== 'number')
 	{
 		value_default = 0;
@@ -176,6 +188,8 @@ function libcore__str2uint(str, value_default)
  */
 function libcore__str2sint(str, value_default)
 {
+	"use strict";
+
 	if (typeof value_default !== 'number')
 	{
 		value_default = 0;
@@ -198,6 +212,8 @@ function libcore__str2sint(str, value_default)
  */
 function libcore__min(val1, val2)
 {
+	"use strict";
+
 	if (val1 < val2)
 	{
 		return val1;
@@ -214,6 +230,8 @@ function libcore__min(val1, val2)
  */
 function libcore__max(val1, val2)
 {
+	"use strict";
+
 	if (val1 > val2)
 	{
 		return val1;
@@ -231,6 +249,8 @@ function libcore__max(val1, val2)
  */
 function libcore__cmp(source, target, flag_identity)
 {
+	"use strict";
+
 	if (typeof flag_identity !== 'boolean')
 	{
 		flag_identity = false;
@@ -313,10 +333,10 @@ function libcore__cmp(source, target, flag_identity)
 	{
 		if (flag_identity === false)
 		{
-			for (target_field in target)
+			for (var target_field in target)
 			{
 				var flag_found = false;
-				for (source_field in source)
+				for (var source_field in source)
 				{
 					if (source_field === target_field)
 					{
@@ -332,10 +352,10 @@ function libcore__cmp(source, target, flag_identity)
 		}
 		else
 		{
-			for (source_field in source)
+			for (var source_field in source)
 			{
 				var flag_found = false;
-				for (target_field in target)
+				for (var target_field in target)
 				{
 					if (source_field === target_field)
 					{
@@ -365,6 +385,8 @@ function libcore__cmp(source, target, flag_identity)
  */
 function libcore__clone(source)
 {
+	"use strict";
+
 /*
 	for simple objects use:
 	var target = { "field1" : source.field1, "field1" : source.field2 };
@@ -437,7 +459,7 @@ function libcore__clone(source)
 	{
 		var tmp = {};
 
-		for (source_field in source)
+		for (var source_field in source)
 		{
 			if (source.hasOwnProperty(source_field))
 			{
@@ -460,6 +482,8 @@ function libcore__clone(source)
  */
 function libcore__sort(input, sort_factor)
 {
+	"use strict";
+
 	if ((input instanceof Array) === false)
 	{
 		return [];
@@ -559,6 +583,8 @@ function libcore__sort(input, sort_factor)
  */
 function libcore__uniq(input, sort_factor)
 {
+	"use strict";
+
 	var input_free = libcore.sort(input, sort_factor);
 
 
@@ -595,6 +621,8 @@ function libcore__uniq(input, sort_factor)
  */
 function libcore__rnd(min, max)
 {
+	"use strict";
+
 	if (min === max)
 	{
 		return min;
@@ -625,6 +653,8 @@ function libcore__rnd(min, max)
  */
 function libcore__str_crop(source, limit)
 {
+	"use strict";
+
 	if (source.length < limit)
 	{
 		return source;
@@ -641,6 +671,8 @@ function libcore__str_crop(source, limit)
  */
 function libcore__array_merge(source1, source2)
 {
+	"use strict";
+
 	if ((source1 instanceof Array) === false)
 	{
 		return [];
@@ -662,6 +694,8 @@ function libcore__array_merge(source1, source2)
  */
 function libcore__array_crop(source, limit)
 {
+	"use strict";
+
 	if ((source instanceof Array) === false)
 	{
 		return [];
@@ -683,6 +717,8 @@ function libcore__array_crop(source, limit)
  */
 function libcore__array_expand(source, limit)
 {
+	"use strict";
+
 	if ((source instanceof Array) === false)
 	{
 		return [];
@@ -723,6 +759,8 @@ function libcore__array_expand(source, limit)
  */
 function libcore__array_limit(source, limit)
 {
+	"use strict";
+
 	if ((source instanceof Array) === false)
 	{
 		return [];
@@ -743,6 +781,8 @@ function libcore__array_limit(source, limit)
  */
 function libcore__array_remix(source)
 {
+	"use strict";
+
 	if ((source instanceof Array) === false)
 	{
 		return [];
@@ -799,6 +839,8 @@ function libcore__array_remix(source)
  */
 function libcore__array_filter(source, filter, flag_invert, flag_identity)
 {
+	"use strict";
+
 	if ((source instanceof Array) === false)
 	{
 		return [];
@@ -865,6 +907,8 @@ function libcore__array_filter(source, filter, flag_invert, flag_identity)
  */
 function libcore__jdraw(source, source_field, flag_shift, tab, max_width)
 {
+	"use strict";
+
 	function shift(flag_shift, cur, max)
 	{
 		if (flag_shift !== true) return ' ';
@@ -1075,6 +1119,8 @@ function libcore__jdraw(source, source_field, flag_shift, tab, max_width)
  */
 function libcore__getmonthname(month, flag_simple)
 {
+	"use strict";
+
 	if (typeof flag_simple !== 'boolean')
 	{
 		flag_simple = false;
@@ -1127,6 +1173,8 @@ function libcore__getmonthname(month, flag_simple)
  */
 function libcore__date_strip(source_date)
 {
+	"use strict";
+
 	var target_date = new Date();
 
 	if ((source_date instanceof Date) === false)
@@ -1157,6 +1205,8 @@ function libcore__date_strip(source_date)
  */
 function libcore__convert_date(gmt_offset, unixtime)
 {
+	"use strict";
+
 	unixtime = Number(unixtime);
 	if (isNaN(unixtime) === true)
 	{

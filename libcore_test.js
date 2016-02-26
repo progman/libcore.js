@@ -1,9 +1,11 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.2.0
+// 0.2.1
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function test_log(msg)
 {
+	"use strict";
+
 	console.log(msg);
 
 	if (typeof alert === 'function')
@@ -15,6 +17,8 @@ function test_log(msg)
 // libcore.get_microtime(), libcore.get_unixtime()
 function test0001()
 {
+	"use strict";
+
 	var old_microtime = libcore.get_microtime();
 	if (typeof old_microtime !== 'number') { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
 
@@ -49,6 +53,8 @@ function test0001()
 // libcore.is_uint(), libcore.is_sint()
 function test0002()
 {
+	"use strict";
+
 	if (libcore.is_uint(-1)    === true)  { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
 	if (libcore.is_uint(0)     === false) { test_log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
 	if (libcore.is_uint(1)     === false) { test_log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
@@ -78,6 +84,8 @@ function test0002()
 // libcore.str2uint(), libcore.str2sint()
 function test0003()
 {
+	"use strict";
+
 	if (libcore.str2uint('-1', 5)  !== 5)  { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
 	if (libcore.str2uint('-1')     !== 0)  { test_log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
 	if (libcore.str2uint('-1-')    !== 0)  { test_log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
@@ -96,6 +104,8 @@ function test0003()
 // libcore.min(), libcore.max()
 function test0004()
 {
+	"use strict";
+
 	if (libcore.min(-10, 10) != -10)  { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
 	if (libcore.min(10, 20)  !=  10)  { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
 
@@ -110,6 +120,8 @@ function test0004()
 // libcore.cmp()
 function test0005()
 {
+	"use strict";
+
 	var o1 = { "a": 1, "b": 2 }; //, s1 = JSON.stringify(o1),
 	var o2 = { "b": 2, "a": 1 }; //, s2 = JSON.stringify(o2);
 	var o3 = { "b": 2 };
@@ -163,6 +175,8 @@ function test0005()
 // libcore.clone()
 function test0006()
 {
+	"use strict";
+
 	var source1 =
 	{
 		"a" :
@@ -251,6 +265,8 @@ function test0006()
 // libcore.sort()
 function test0007()
 {
+	"use strict";
+
 	var a = [];
 	a.push({ "id" : 5, "val" : "5" });
 	a.push({ "id" : 7, "val" : "7" });
@@ -293,6 +309,8 @@ function test0007()
 // libcore.uniq(), number array
 function test0008()
 {
+	"use strict";
+
 	var x = [];
 	x.push(1);
 	x.push(2);
@@ -319,6 +337,8 @@ function test0008()
 // libcore.uniq(), string array
 function test0009()
 {
+	"use strict";
+
 	var x = [];
 	x.push('мама');
 	x.push('мыла');
@@ -345,6 +365,8 @@ function test0009()
 // libcore.uniq()
 function test0010()
 {
+	"use strict";
+
 	var x = [];
 	x.push({ "id" : 1, "value" : "a" });
 	x.push({ "id" : 2, "value" : "b" });
@@ -372,6 +394,8 @@ function test0010()
 // libcore.rnd()
 function test0011()
 {
+	"use strict";
+
 	function test(min, max)
 	{
 		if (max < min)
@@ -495,6 +519,8 @@ function test0011()
 // libcore.str_crop()
 function test0012()
 {
+	"use strict";
+
 	var a = "bird ";
 
 	var b = libcore.str_crop(a, 4);
@@ -522,6 +548,8 @@ function test0012()
 // libcore.array_merge()
 function test0013()
 {
+	"use strict";
+
 	var source1 = [];
 	var source2 = [];
 
@@ -551,6 +579,8 @@ function test0013()
 // libcore.array_crop()
 function test0014()
 {
+	"use strict";
+
 	var tmp = [];
 	tmp.push(1);
 	tmp.push(2);
@@ -574,6 +604,8 @@ function test0014()
 // libcore.array_expand()
 function test0015()
 {
+	"use strict";
+
 	var a = [];
 	var b = libcore.array_expand(a, 2);
 
@@ -600,6 +632,8 @@ function test0015()
 // libcore.array_limit()
 function test0016()
 {
+	"use strict";
+
 	var a = [];
 	var b = libcore.array_limit(a, 2);
 
@@ -634,6 +668,8 @@ function test0016()
 // libcore.array_remix()
 function test0017()
 {
+	"use strict";
+
 	var x = [];
 	x.push(1);
 	x.push(2);
@@ -703,6 +739,8 @@ function test0017()
 // libcore.array_filter()
 function test0018()
 {
+	"use strict";
+
 	var source1 = [];
 	source1.push(1);
 	source1.push(666);
@@ -783,6 +821,8 @@ function test0018()
 // libcore.jdraw()
 function test0019()
 {
+	"use strict";
+
 	var data = { "a": "str", "very_long_name": true, "c" : 2, "d" : null, "e" : [ "str", false, 0, null ], "f" : { "g" : [ 5, 6, 7 ], "real_very_long_name" : "str" } };
 
 	var body1 = libcore.jdraw(data, '', false);
@@ -846,6 +886,8 @@ function test0019()
 // libcore.getmonthname()
 function test0020()
 {
+	"use strict";
+
 	var res1 = libcore.getmonthname(0, false);
 	if (res1 !== 'мартобря') { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
 
@@ -865,6 +907,8 @@ function test0020()
 // libcore.date_strip()
 function test0021()
 {
+	"use strict";
+
 	var source_date1 = null;
 
 	var target_date1 = new Date();
@@ -895,6 +939,8 @@ function test0021()
 // libcore.convert_date()
 function test0022()
 {
+	"use strict";
+
 	var res1 = libcore.convert_date(0, 0);
 	if (res1 !== '01&nbsp;января&nbsp;1970') { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
 
@@ -928,6 +974,8 @@ function test0022()
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function do_it()
 {
+	"use strict";
+
 	if (test0001() === false) { return false; }
 	if (test0002() === false) { return false; }
 	if (test0003() === false) { return false; }
