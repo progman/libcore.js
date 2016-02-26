@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.2.8
+// 0.2.9
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 var libcore =
@@ -25,7 +25,10 @@ var libcore =
 	"array_limit"   : libcore__array_limit,
 	"array_remix"   : libcore__array_remix,
 	"array_filter"  : libcore__array_filter,
-	"jdraw"         : libcore__jdraw
+	"jdraw"         : libcore__jdraw,
+	"getmonthname"  : libcore__getmonthname,
+	"date_strip"    : libcore__date_strip,
+	"convert_date"  : libcore__convert_date
 };
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
@@ -1062,5 +1065,193 @@ function libcore__jdraw(source, source_field, flag_shift, tab, max_width)
 	body += 'ERROR[libcore.jdraw()]: not implementation type ' + typeof source;
 
 	return body;
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * convert month number to month name
+ * \param[in] month month number, for example 1 or '01'
+ * \param[in] flag_simple select simple or complex name
+ * \return month name
+ */
+function libcore__getmonthname(month, flag_simple)
+{
+	if (typeof flag_simple !== 'boolean')
+	{
+		flag_simple = false;
+	}
+
+	var month_int = 0;
+	if ((typeof month === 'number') || (typeof month === 'string'))
+	{
+		month_int = parseInt(month, 10);
+	}
+	if (month_int > 12)
+	{
+		month_int = 0;
+	}
+
+	var month_list =
+	[
+		{ "rus" : { "complex" : 'Мартобря', "simple" : 'Мартобрь', "short" : '???' }, "eng" : { "complex" : 'Unknown',   "simple" : 'Unknown',   "short" : '???' } },
+		{ "rus" : { "complex" : 'Января',   "simple" : 'Январь',   "short" : 'Янв' }, "eng" : { "complex" : 'January',   "simple" : 'January',   "short" : 'Jan' } },
+		{ "rus" : { "complex" : 'Февраля',  "simple" : 'Февраль',  "short" : 'Фев' }, "eng" : { "complex" : 'February',  "simple" : 'February',  "short" : 'Feb' } },
+		{ "rus" : { "complex" : 'Марта',    "simple" : 'Март',     "short" : 'Мар' }, "eng" : { "complex" : 'March',     "simple" : 'March',     "short" : 'Mar' } },
+		{ "rus" : { "complex" : 'Апреля',   "simple" : 'Апрель',   "short" : 'Апр' }, "eng" : { "complex" : 'April',     "simple" : 'April',     "short" : 'Apr' } },
+		{ "rus" : { "complex" : 'Мая',      "simple" : 'Май',      "short" : 'Май' }, "eng" : { "complex" : 'May',       "simple" : 'May',       "short" : 'May' } },
+		{ "rus" : { "complex" : 'Июня',     "simple" : 'Июнь',     "short" : 'Июн' }, "eng" : { "complex" : 'June',      "simple" : 'June',      "short" : 'Jun' } },
+		{ "rus" : { "complex" : 'Июля',     "simple" : 'Июль',     "short" : 'Июл' }, "eng" : { "complex" : 'July',      "simple" : 'July',      "short" : 'Jul' } },
+		{ "rus" : { "complex" : 'Августа',  "simple" : 'Август',   "short" : 'Авг' }, "eng" : { "complex" : 'August',    "simple" : 'August',    "short" : 'Aug' } },
+		{ "rus" : { "complex" : 'Сентября', "simple" : 'Сентябрь', "short" : 'Сен' }, "eng" : { "complex" : 'September', "simple" : 'September', "short" : 'Sep' } },
+		{ "rus" : { "complex" : 'Октября',  "simple" : 'Октябрь',  "short" : 'Окт' }, "eng" : { "complex" : 'October',   "simple" : 'October',   "short" : 'Oct' } },
+		{ "rus" : { "complex" : 'Ноября',   "simple" : 'Ноябрь',   "short" : 'Ноя' }, "eng" : { "complex" : 'November',  "simple" : 'November',  "short" : 'Nov' } },
+		{ "rus" : { "complex" : 'Декабря',  "simple" : 'Декабрь',  "short" : 'Дек' }, "eng" : { "complex" : 'December',  "simple" : 'December',  "short" : 'Dec' } }
+	];
+
+
+	if (flag_simple === false)
+	{
+		return month_list[month_int].rus.complex.toLowerCase();
+	}
+
+	return month_list[month_int].rus.simple;
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * strip date in date object
+ * \param[in] source date object
+ * \return result date object
+ */
+function libcore__date_strip(source_date)
+{
+	var target_date = new Date();
+
+	if ((source_date instanceof Date) === false)
+	{
+		target_date.setTime(0);
+		target_date.setHours(0);
+		target_date.setMinutes(0);
+		target_date.setSeconds(0);
+		target_date.setMilliseconds(0);
+	}
+	else
+	{
+		target_date.setTime(source_date.getTime());
+		target_date.setHours(0);
+		target_date.setMinutes(0);
+		target_date.setSeconds(0);
+		target_date.setMilliseconds(0);
+	}
+
+	return target_date;
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * convert unixtime to user friedly text
+ * \param[in] gmt_offset gmt offset
+ * \param[in] unixtime unixtime
+ * \return result user friedly text
+ */
+function libcore__convert_date(gmt_offset, unixtime)
+{
+	if (typeof unixtime !== 'number') return '';
+
+
+	var date_day_now = new Date();
+	date_day_now = libcore.date_strip(date_day_now);
+
+	var date_day_prev = new Date();
+	date_day_prev.setTime(date_day_prev.getTime() - (60*60*24*1000));
+	date_day_prev = libcore.date_strip(date_day_prev);
+
+	var date_day_next = new Date();
+	date_day_next.setTime(date_day_next.getTime() + (60*60*24*1000));
+	date_day_next = libcore.date_strip(date_day_next);
+
+	var xdate = new Date();
+
+//alert(date_strip(date_now));
+
+	xdate.setTime((unixtime * 1000) + (gmt_offset * 60 * 60 * 1000));
+
+
+//alert('xdate.getTime():' + xdate.getTime() + ', date_day_now.getTime():' + date_day_now.getTime() + ', date_day_next.getTime():' + date_day_next.getTime());
+	if
+	(
+		(xdate.getTime() > date_day_now.getTime()) &&
+		(xdate.getTime() < date_day_next.getTime())
+	)
+	{
+		var str = 'Сегодня&nbsp;в&nbsp;';
+
+		var hour = String(xdate.getHours())
+		if (hour.length === 1) hour = '0' + hour;
+		str = str + hour;
+
+		str = str + ':';
+
+		var min = String(xdate.getMinutes())
+		if (min.length === 1) min = '0' + min;
+		str = str + min;
+
+		return str;
+	}
+
+//alert('xdate.getTime():' + xdate.getTime() + ', date_day_now.getTime():' + date_day_now.getTime() + ', date_day_prev.getTime():' + date_day_prev.getTime());
+	if
+	(
+		(xdate.getTime() < date_day_now.getTime()) &&
+		(xdate.getTime() > date_day_prev.getTime())
+	)
+	{
+		var str = 'Вчера&nbsp;в&nbsp;';
+
+		var hour = String(xdate.getHours())
+		if (hour.length === 1) hour = '0' + hour;
+		str = str + hour;
+
+		str = str + ':';
+
+		var min = String(xdate.getMinutes())
+		if (min.length === 1) min = '0' + min;
+		str = str + min;
+
+		return str;
+	}
+
+
+	var str = '';
+	var day = String(xdate.getDate());
+	if (day.length === 1) day = '0' + day;
+	str = str + day;
+
+	str = str + '&nbsp;';
+
+	var month = String(xdate.getMonth() + 1);
+	if (month.length === 1) month = '0' + month;
+
+	str = str + libcore.getmonthname(month);
+
+
+	var year = xdate.getFullYear();
+	var year_now = date_day_now.getFullYear();
+
+	if (year !== year_now)
+	{
+		str = str + '&nbsp;';
+		str = str + year;
+	}
+
+
+//	str = str + ', ';
+//	str = str + date('H:i', strtotime($unixtime));
+
+
+	if (str === '30 ноября 1999, 00:00')
+	{
+		return 'unknown';
+	}
+
+
+	return str;
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//

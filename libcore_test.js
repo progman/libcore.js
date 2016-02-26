@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.1.9
+// 0.2.0
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function test_log(msg)
@@ -49,27 +49,27 @@ function test0001()
 // libcore.is_uint(), libcore.is_sint()
 function test0002()
 {
-	if (libcore.is_uint(-1)    == true)  { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
-	if (libcore.is_uint(0)     == false) { test_log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
-	if (libcore.is_uint(1)     == false) { test_log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
-	if (libcore.is_uint(+1)    == false) { test_log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
+	if (libcore.is_uint(-1)    === true)  { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (libcore.is_uint(0)     === false) { test_log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
+	if (libcore.is_uint(1)     === false) { test_log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
+	if (libcore.is_uint(+1)    === false) { test_log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
 
-	if (libcore.is_uint("-1-") == true)  { test_log('ERROR[' + arguments.callee.name + '()]: step005'); return false; }
-	if (libcore.is_uint("-1")  == true)  { test_log('ERROR[' + arguments.callee.name + '()]: step006'); return false; }
-	if (libcore.is_uint("0")   == false) { test_log('ERROR[' + arguments.callee.name + '()]: step007'); return false; }
-	if (libcore.is_uint("1")   == false) { test_log('ERROR[' + arguments.callee.name + '()]: step008'); return false; }
-	if (libcore.is_uint("+1")  == false) { test_log('ERROR[' + arguments.callee.name + '()]: step009'); return false; }
+	if (libcore.is_uint("-1-") === true)  { test_log('ERROR[' + arguments.callee.name + '()]: step005'); return false; }
+	if (libcore.is_uint("-1")  === true)  { test_log('ERROR[' + arguments.callee.name + '()]: step006'); return false; }
+	if (libcore.is_uint("0")   === false) { test_log('ERROR[' + arguments.callee.name + '()]: step007'); return false; }
+	if (libcore.is_uint("1")   === false) { test_log('ERROR[' + arguments.callee.name + '()]: step008'); return false; }
+	if (libcore.is_uint("+1")  === false) { test_log('ERROR[' + arguments.callee.name + '()]: step009'); return false; }
 
-	if (libcore.is_sint("-1-") == true)  { test_log('ERROR[' + arguments.callee.name + '()]: step010'); return false; }
-	if (libcore.is_sint("-1")  == false) { test_log('ERROR[' + arguments.callee.name + '()]: step011'); return false; }
-	if (libcore.is_sint("0")   == false) { test_log('ERROR[' + arguments.callee.name + '()]: step012'); return false; }
-	if (libcore.is_sint("1")   == false) { test_log('ERROR[' + arguments.callee.name + '()]: step013'); return false; }
-	if (libcore.is_sint("+1")  == false) { test_log('ERROR[' + arguments.callee.name + '()]: step014'); return false; }
+	if (libcore.is_sint("-1-") === true)  { test_log('ERROR[' + arguments.callee.name + '()]: step010'); return false; }
+	if (libcore.is_sint("-1")  === false) { test_log('ERROR[' + arguments.callee.name + '()]: step011'); return false; }
+	if (libcore.is_sint("0")   === false) { test_log('ERROR[' + arguments.callee.name + '()]: step012'); return false; }
+	if (libcore.is_sint("1")   === false) { test_log('ERROR[' + arguments.callee.name + '()]: step013'); return false; }
+	if (libcore.is_sint("+1")  === false) { test_log('ERROR[' + arguments.callee.name + '()]: step014'); return false; }
 
-	if (libcore.is_sint(-1)    == false) { test_log('ERROR[' + arguments.callee.name + '()]: step015'); return false; }
-	if (libcore.is_sint(0)     == false) { test_log('ERROR[' + arguments.callee.name + '()]: step016'); return false; }
-	if (libcore.is_sint(1)     == false) { test_log('ERROR[' + arguments.callee.name + '()]: step017'); return false; }
-	if (libcore.is_sint(+1)    == false) { test_log('ERROR[' + arguments.callee.name + '()]: step018'); return false; }
+	if (libcore.is_sint(-1)    === false) { test_log('ERROR[' + arguments.callee.name + '()]: step015'); return false; }
+	if (libcore.is_sint(0)     === false) { test_log('ERROR[' + arguments.callee.name + '()]: step016'); return false; }
+	if (libcore.is_sint(1)     === false) { test_log('ERROR[' + arguments.callee.name + '()]: step017'); return false; }
+	if (libcore.is_sint(+1)    === false) { test_log('ERROR[' + arguments.callee.name + '()]: step018'); return false; }
 
 
 	return true;
@@ -114,36 +114,36 @@ function test0005()
 	var o2 = { "b": 2, "a": 1 }; //, s2 = JSON.stringify(o2);
 	var o3 = { "b": 2 };
 
-	if (libcore.cmp(o1, o2, true)  == false) { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
-	if (libcore.cmp(o1, o2, false) == false) { test_log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
+	if (libcore.cmp(o1, o2, true)  === false) { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (libcore.cmp(o1, o2, false) === false) { test_log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
 
-	if (libcore.cmp(o1, o3, false) == false) { test_log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
-	if (libcore.cmp(o2, o3, false) == false) { test_log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
+	if (libcore.cmp(o1, o3, false) === false) { test_log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
+	if (libcore.cmp(o2, o3, false) === false) { test_log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
 
-	if (libcore.cmp(o1, o3, true)  == true)  { test_log('ERROR[' + arguments.callee.name + '()]: step005'); return false; }
-	if (libcore.cmp(o2, o3, true)  == true)  { test_log('ERROR[' + arguments.callee.name + '()]: step006'); return false; }
+	if (libcore.cmp(o1, o3, true)  === true)  { test_log('ERROR[' + arguments.callee.name + '()]: step005'); return false; }
+	if (libcore.cmp(o2, o3, true)  === true)  { test_log('ERROR[' + arguments.callee.name + '()]: step006'); return false; }
 
 	var f1 = function() { var z = 0; };
 	var f2 = f1;
 	var f3 = function() { var z = 0; };
 	var f4 = function() { var a = 0; };
 
-	if (libcore.cmp(f1, f2)  == false)  { test_log('ERROR[' + arguments.callee.name + '()]: step007'); return false; }
-	if (libcore.cmp(f1, f3)  == false)  { test_log('ERROR[' + arguments.callee.name + '()]: step008'); return false; }
-	if (libcore.cmp(f1, f4)  == true)   { test_log('ERROR[' + arguments.callee.name + '()]: step009'); return false; }
+	if (libcore.cmp(f1, f2)  === false)  { test_log('ERROR[' + arguments.callee.name + '()]: step007'); return false; }
+	if (libcore.cmp(f1, f3)  === false)  { test_log('ERROR[' + arguments.callee.name + '()]: step008'); return false; }
+	if (libcore.cmp(f1, f4)  === true)   { test_log('ERROR[' + arguments.callee.name + '()]: step009'); return false; }
 
 
 	var d1 = new Date("July 1, 1999");
 	var d2 = new Date("July 2, 1999");
 
-	if (libcore.cmp(d1, d1)  == false)  { test_log('ERROR[' + arguments.callee.name + '()]: step010'); return false; }
-	if (libcore.cmp(d1, d2)  == true)   { test_log('ERROR[' + arguments.callee.name + '()]: step011'); return false; }
+	if (libcore.cmp(d1, d1)  === false)  { test_log('ERROR[' + arguments.callee.name + '()]: step010'); return false; }
+	if (libcore.cmp(d1, d2)  === true)   { test_log('ERROR[' + arguments.callee.name + '()]: step011'); return false; }
 
 	var d3 = new Date();
 	var d4 = new Date(d3.getTime());
 
-	if (libcore.cmp(d3, d3)  == false)  { test_log('ERROR[' + arguments.callee.name + '()]: step012'); return false; }
-	if (libcore.cmp(d3, d4)  == false)  { test_log('ERROR[' + arguments.callee.name + '()]: step013'); return false; }
+	if (libcore.cmp(d3, d3)  === false)  { test_log('ERROR[' + arguments.callee.name + '()]: step012'); return false; }
+	if (libcore.cmp(d3, d4)  === false)  { test_log('ERROR[' + arguments.callee.name + '()]: step013'); return false; }
 
 
 	var ox1 = { "a" : 1, "b" : [0, 1, 2] };
@@ -151,10 +151,10 @@ function test0005()
 	var ox3 = { "b" : [0, 1, 3], "a" : 1 };
 	var ox4 = { "a" : 1, "c" : 7, "b" : [0, 1, 3] };
 
-	if (libcore.cmp(ox1, ox2, false) == false)  { test_log('ERROR[' + arguments.callee.name + '()]: step014'); return false; }
-	if (libcore.cmp(ox1, ox3, false) == true)   { test_log('ERROR[' + arguments.callee.name + '()]: step015'); return false; }
-	if (libcore.cmp(ox4, ox3, false) == false)  { test_log('ERROR[' + arguments.callee.name + '()]: step016'); return false; }
-	if (libcore.cmp(ox4, ox3, true)  == true)   { test_log('ERROR[' + arguments.callee.name + '()]: step017'); return false; }
+	if (libcore.cmp(ox1, ox2, false) === false)  { test_log('ERROR[' + arguments.callee.name + '()]: step014'); return false; }
+	if (libcore.cmp(ox1, ox3, false) === true)   { test_log('ERROR[' + arguments.callee.name + '()]: step015'); return false; }
+	if (libcore.cmp(ox4, ox3, false) === false)  { test_log('ERROR[' + arguments.callee.name + '()]: step016'); return false; }
+	if (libcore.cmp(ox4, ox3, true)  === true)   { test_log('ERROR[' + arguments.callee.name + '()]: step017'); return false; }
 
 
 	return true;
@@ -652,20 +652,20 @@ function test0017()
 		if ((x[0] != 1) || (x[1] != 2)) { test_log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
 
 
-		if ((y[0] == 1) && (y[1] == 2))
+		if ((y[0] === 1) && (y[1] === 2))
 		{
 			flag1 = true;
 		}
 
-		if ((y[0] == 2) && (y[1] == 1))
+		if ((y[0] === 2) && (y[1] === 1))
 		{
 			flag2 = true;
 		}
 
-		if ((flag1 == true) && (flag2 == true)) break;
+		if ((flag1 === true) && (flag2 === true)) break;
 
 		count++;
-		if (count == 1000) { test_log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
+		if (count === 1000) { test_log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
 	}
 
 
@@ -843,8 +843,88 @@ function test0019()
 	return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// libcore.getmonthname()
+function test0020()
+{
+	var res1 = libcore.getmonthname(0, false);
+	if (res1 !== 'мартобря') { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+
+	var res2 = libcore.getmonthname(0, true);
+	if (res2 !== 'Мартобрь') { test_log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
+
+	var res3 = libcore.getmonthname(1, false);
+	if (res3 !== 'января') { test_log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
+
+	var res4 = libcore.getmonthname(1, true);
+	if (res4 !== 'Январь') { test_log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
+
+
+	return true;
+}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// libcore.date_strip()
+function test0021()
+{
+	var source_date1 = null;
+
+	var target_date1 = new Date();
+	target_date1.setTime(0);
+	target_date1.setHours(0);
+	target_date1.setMinutes(0);
+	target_date1.setSeconds(0);
+	target_date1.setMilliseconds(0);
+
+	var res1 = libcore.date_strip(source_date1);
+
+
+	var source_date2 = new Date();
+	source_date2.setTime(777777777777); // Thu Aug 25 1994 05:22:57 GMT+0400 (MSK)
+
+	var target_date2 = new Date(1994, 7, 25); // 25 Aug 1994
+
+	var res2 = libcore.date_strip(source_date2);
+
+
+	if (libcore.cmp(res1, target_date1, true)  === false) { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (libcore.cmp(res2, target_date2, true)  === false) { test_log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
+
+
+	return true;
+}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// libcore.convert_date()
+function test0022()
+{
+	var res1 = libcore.convert_date(0, 0);
+	if (res1 !== '01&nbsp;января&nbsp;1970') { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+
+	var res2 = libcore.convert_date(0, 1352032868);
+	if (res2 !== '04&nbsp;ноября&nbsp;2012') { test_log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
+
+
+	var ut = libcore.get_unixtime();
+
+	var d = new Date();
+	d.setTime(ut * 1000);
+
+	var hour = String(d.getHours());
+	var min  = String(d.getMinutes());
+
+	if (hour.length !== 2) hour = '0' + hour;
+	if (min.length  !== 2) min  = '0' + min;
+
+
+	var res3 = libcore.convert_date(0, ut);
+	var val3 = 'Сегодня&nbsp;в&nbsp;' + hour + ':' + min;
+	if (res3 !== val3) { test_log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
+
+	var res4 = libcore.convert_date(0, ut - (60 * 60 * 24));
+	var val4 = 'Вчера&nbsp;в&nbsp;' + hour + ':' + min;
+	if (res4 !== val4) { test_log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
+
+
+	return true;
+}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function do_it()
 {
@@ -867,6 +947,9 @@ function do_it()
 	if (test0017() === false) { return false; }
 	if (test0018() === false) { return false; }
 	if (test0019() === false) { return false; }
+	if (test0020() === false) { return false; }
+	if (test0021() === false) { return false; }
+	if (test0022() === false) { return false; }
 
 	return true;
 }
