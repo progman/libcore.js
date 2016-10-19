@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.3.1
+// 0.3.2
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 var libcore =
@@ -383,7 +383,7 @@ function libcore__cmp(source, target, flag_identity)
  * \param[in] source source variable
  * \return cloned variable
  */
-function libcore__clone(source)
+function libcore__clone(source, flag_prototype)
 {
 	"use strict";
 
@@ -458,6 +458,17 @@ function libcore__clone(source)
 	if (typeof source === 'object')
 	{
 		var tmp = {};
+//		var tmp = new source.constructor();
+//		var tmp = source.constructor();
+//		var tmp = Object.create(source);
+//		var tmp = Object.assign({}, source);
+
+
+		if (flag_prototype === true)
+		{
+			tmp.__proto__ = source.__proto__;
+		}
+
 
 		for (var source_field in source)
 		{

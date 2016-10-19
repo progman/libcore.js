@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.2.1
+// 0.2.2
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function test_log(msg)
@@ -177,6 +177,46 @@ function test0006()
 {
 	"use strict";
 
+
+	var animal =
+	{
+		"eats" : true
+	};
+
+	var rabbit =
+	{
+		"jumps"     : true,
+		"__proto__" : animal
+	};
+
+	var rabbit_clone1 = libcore.clone(rabbit);
+	var rabbit_clone2 = libcore.clone(rabbit, true);
+
+/*
+	for (var key in rabbit)
+	{
+		console.log( "rabbit[\"" + key + "\"] = " + rabbit[key] ); // выводит и "eats" и "jumps"
+	}
+
+	console.log('rabbit:' + JSON.stringify( rabbit ));
+
+	console.log('rabbit: ' + Object.keys(rabbit));
+	console.log('rabbit: ' + JSON.stringify(Object.getPrototypeOf(rabbit)));
+
+	console.log('rabbit_clone1:' + JSON.stringify( rabbit_clone1 ));
+	console.log('rabbit_clone2:' + JSON.stringify( rabbit_clone2 ));
+
+	console.log('rabbit_clone1: ' + Object.keys(rabbit_clone1));
+	console.log('rabbit_clone1: ' + JSON.stringify(Object.getPrototypeOf(rabbit_clone1)));
+
+	console.log('rabbit_clone2: ' + Object.keys(rabbit_clone2));
+	console.log('rabbit_clone2: ' + JSON.stringify(Object.getPrototypeOf(rabbit_clone2)));
+*/
+
+	if (libcore.cmp(rabbit, rabbit_clone1, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (libcore.cmp(rabbit, rabbit_clone2, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
+
+
 	var source1 =
 	{
 		"a" :
@@ -198,65 +238,65 @@ function test0006()
 		]
 	};
 	var target1 = libcore.clone(source1);
-	if (libcore.cmp(source1, target1, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (libcore.cmp(source1, target1, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
 	target1.a.a1[0] = 4;
-	if (libcore.cmp(source1, target1, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
+	if (libcore.cmp(source1, target1, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
 
 
 	var source2 = true;
 	var target2 = libcore.clone(source2);
-	if (libcore.cmp(source2, target2, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
+	if (libcore.cmp(source2, target2, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step005'); return false; }
 	target2 = false;
-	if (libcore.cmp(source2, target2, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
+	if (libcore.cmp(source2, target2, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step006'); return false; }
 
 
 	var source3 = 1;
 	var target3 = libcore.clone(source3);
-	if (libcore.cmp(source3, target3, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step005'); return false; }
+	if (libcore.cmp(source3, target3, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step007'); return false; }
 	target3 = 0;
-	if (libcore.cmp(source3, target3, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step006'); return false; }
+	if (libcore.cmp(source3, target3, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step008'); return false; }
 
 
 	var source4 = "wow";
 	var target4 = libcore.clone(source4);
-	if (libcore.cmp(source4, target4, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step007'); return false; }
+	if (libcore.cmp(source4, target4, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step009'); return false; }
 	target4 = "owo";
-	if (libcore.cmp(source4, target4, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step008'); return false; }
+	if (libcore.cmp(source4, target4, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step010'); return false; }
 
 
 	var source5 = null;
 	var target5 = libcore.clone(source5);
-	if (libcore.cmp(source5, target5, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step009'); return false; }
+	if (libcore.cmp(source5, target5, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step011'); return false; }
 	target5 = "";
-	if (libcore.cmp(source5, target5, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step010'); return false; }
+	if (libcore.cmp(source5, target5, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step012'); return false; }
 
 
 	var source6 = undefined;
 	var target6 = libcore.clone(source6);
-	if (libcore.cmp(source6, target6, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step011'); return false; }
+	if (libcore.cmp(source6, target6, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step013'); return false; }
 	target6 = "";
-	if (libcore.cmp(source6, target6, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step012'); return false; }
+	if (libcore.cmp(source6, target6, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step014'); return false; }
 
 
 	var source7 = function() { return 1; };
 	var target7 = libcore.clone(source7);
-	if (libcore.cmp(source7, target7, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step013'); return false; }
+	if (libcore.cmp(source7, target7, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step015'); return false; }
 	target7 = function() { return 2; };
-	if (libcore.cmp(source7, target7, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step014'); return false; }
+	if (libcore.cmp(source7, target7, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step016'); return false; }
 
 
 	var source8 = /^foo(bar)?$/i;
 	var target8 = libcore.clone(source8);
-	if (libcore.cmp(source8, target8, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step015'); return false; }
+	if (libcore.cmp(source8, target8, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step017'); return false; }
 	target8 = /^foo(too)?$/i;
-	if (libcore.cmp(source8, target8, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step016'); return false; }
+	if (libcore.cmp(source8, target8, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step018'); return false; }
 
 
 	var source9 = new Date(2014, 0, 1);
 	var target9 = libcore.clone(source9);
-	if (libcore.cmp(source9, target9, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step017'); return false; }
+	if (libcore.cmp(source9, target9, true) !== true)  { test_log('ERROR[' + arguments.callee.name + '()]: step019'); return false; }
 	target9 = new Date(2014, 0, 2);
-	if (libcore.cmp(source9, target9, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step018'); return false; }
+	if (libcore.cmp(source9, target9, true) !== false) { test_log('ERROR[' + arguments.callee.name + '()]: step020'); return false; }
 
 
 	return true;
