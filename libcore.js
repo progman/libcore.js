@@ -532,6 +532,7 @@ function libcore__sort(input, sort_factor)
 					return 0;
 				}
 			});
+			break;
 		}
 
 
