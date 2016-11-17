@@ -596,6 +596,12 @@ function libcore__uniq(input, sort_factor)
 {
 	"use strict";
 
+	if ((input instanceof Array) === false)
+	{
+		return [];
+	}
+
+
 	var input_free = libcore.sort(input, sort_factor);
 
 
