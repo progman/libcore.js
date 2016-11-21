@@ -1,35 +1,36 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.3.3
+// 0.3.4
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 var libcore =
 {
-	"log"           : libcore__log,
-	"get_microtime" : libcore__get_microtime,
-	"get_unixtime"  : libcore__get_unixtime,
-	"is_uint"       : libcore__is_uint,
-	"is_sint"       : libcore__is_sint,
-	"str2uint"      : libcore__str2uint,
-	"str2sint"      : libcore__str2sint,
-	"min"           : libcore__min,
-	"max"           : libcore__max,
-	"cmp"           : libcore__cmp,
-	"clone"         : libcore__clone,
-	"sort"          : libcore__sort,
-	"uniq"          : libcore__uniq,
-	"rnd"           : libcore__rnd,
-	"str_crop"      : libcore__str_crop,
-	"array_merge"   : libcore__array_merge,
-	"array_crop"    : libcore__array_crop,
-	"array_expand"  : libcore__array_expand,
-	"array_limit"   : libcore__array_limit,
-	"array_remix"   : libcore__array_remix,
-	"array_filter"  : libcore__array_filter,
-	"jdraw"         : libcore__jdraw,
-	"getmonthname"  : libcore__getmonthname,
-	"date_strip"    : libcore__date_strip,
-	"convert_date"  : libcore__convert_date,
-	"get_age"       : libcore__get_age
+	"log"                 : libcore__log,
+	"get_microtime"       : libcore__get_microtime,
+	"get_unixtime"        : libcore__get_unixtime,
+	"is_uint"             : libcore__is_uint,
+	"is_sint"             : libcore__is_sint,
+	"str2uint"            : libcore__str2uint,
+	"str2sint"            : libcore__str2sint,
+	"min"                 : libcore__min,
+	"max"                 : libcore__max,
+	"cmp"                 : libcore__cmp,
+	"clone"               : libcore__clone,
+	"sort"                : libcore__sort,
+	"uniq"                : libcore__uniq,
+	"rnd"                 : libcore__rnd,
+	"str_crop"            : libcore__str_crop,
+	"array_merge"         : libcore__array_merge,
+	"array_crop"          : libcore__array_crop,
+	"array_expand"        : libcore__array_expand,
+	"array_limit"         : libcore__array_limit,
+	"array_remix"         : libcore__array_remix,
+	"array_filter"        : libcore__array_filter,
+	"jdraw"               : libcore__jdraw,
+	"getmonthname"        : libcore__getmonthname,
+	"date_strip"          : libcore__date_strip,
+	"convert_date"        : libcore__convert_date,
+	"get_age"             : libcore__get_age,
+	"date_shift_timezone" : libcore__date_shift_timezone
 };
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
@@ -1374,5 +1375,23 @@ function libcore__get_age(date1, date2)
 	if (date1.getSeconds() > date2.getSeconds()) return age;
 
 	return ++age;
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * shift date use timezone
+ * \param[in] date date
+ * \param[in] timezone timezone
+ * \return result shifted date
+ */
+function libcore__date_shift_timezone(date, timezone)
+{
+	var null_date = new Date(1970, 0, 1);
+	if ((date instanceof Date) === false) return null_date;
+	if (typeof timezone !== 'number') return null_date;
+
+	var total_ms = date.getTime();
+	date.setTime(total_ms + (timezone * 60 * 60 * 1000));
+
+	return date;
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//

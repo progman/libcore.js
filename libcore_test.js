@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.2.3
+// 0.2.4
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function test_log(msg)
@@ -1149,6 +1149,46 @@ function test0025()
 	return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// libcore.date_shift_timezone()
+function test0026()
+{
+	"use strict";
+
+
+	var date1;
+	var date2;
+	var timezone;
+
+
+	date1 = new Date(1974, 7, 12);
+	timezone = +3;
+	date2 = libcore.date_shift_timezone(date1, timezone);
+
+	if (date2.getFullYear() !== 1974) { test_log('ERROR[' + arguments.callee.name + '()]: step001'); return false; }
+	if (date2.getMonth() !== 7) { test_log('ERROR[' + arguments.callee.name + '()]: step002'); return false; }
+	if (date2.getDate() !== 12) { test_log('ERROR[' + arguments.callee.name + '()]: step003'); return false; }
+	if (date2.getHours() !== 3) { test_log('ERROR[' + arguments.callee.name + '()]: step004'); return false; }
+	if (date2.getMinutes() !== 0) { test_log('ERROR[' + arguments.callee.name + '()]: step005'); return false; }
+	if (date2.getSeconds() !== 0) { test_log('ERROR[' + arguments.callee.name + '()]: step006'); return false; }
+	if (date2.getMilliseconds() !== 0) { test_log('ERROR[' + arguments.callee.name + '()]: step007'); return false; }
+
+
+	date1 = new Date(1974, 7, 12);
+	timezone = -3;
+	date2 = libcore.date_shift_timezone(date1, timezone);
+
+	if (date2.getFullYear() !== 1974) { test_log('ERROR[' + arguments.callee.name + '()]: step008'); return false; }
+	if (date2.getMonth() !== 7) { test_log('ERROR[' + arguments.callee.name + '()]: step009'); return false; }
+	if (date2.getDate() !== 11) { test_log('ERROR[' + arguments.callee.name + '()]: step010'); return false; }
+	if (date2.getHours() !== 21) { test_log('ERROR[' + arguments.callee.name + '()]: step011'); return false; }
+	if (date2.getMinutes() !== 0) { test_log('ERROR[' + arguments.callee.name + '()]: step012'); return false; }
+	if (date2.getSeconds() !== 0) { test_log('ERROR[' + arguments.callee.name + '()]: step013'); return false; }
+	if (date2.getMilliseconds() !== 0) { test_log('ERROR[' + arguments.callee.name + '()]: step014'); return false; }
+
+
+	return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 function do_it()
 {
@@ -1179,6 +1219,7 @@ function do_it()
 	if (test0023() === false) { return false; }
 	if (test0024() === false) { return false; }
 	if (test0025() === false) { return false; }
+	if (test0026() === false) { return false; }
 
 	return true;
 }
