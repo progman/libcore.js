@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.2.4
+// 0.2.5
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function test_log(msg)
@@ -1189,7 +1189,39 @@ function test0026()
 	return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// libcore.str2date()
+function test0027()
+{
+	"use strict";
 
+
+	var date;
+
+
+	date = libcore.str2date("1974-08-12 01:02:03");
+
+
+//	test_log('date.getFullYear()     :' + date.getFullYear());
+//	test_log('date.getMonth()        :' + date.getMonth());
+//	test_log('date.getDate()         :' + date.getDate());
+//	test_log('date.getHours()        :' + date.getHours());
+//	test_log('date.getMinutes()      :' + date.getMinutes());
+//	test_log('date.getSeconds()      :' + date.getSeconds());
+//	test_log('date.getMilliseconds() :' + date.getMilliseconds());
+
+
+	if (date.getFullYear() !== 1974) { test_log('ERROR[' + arguments.callee.name + '()]: step008'); return false; }
+	if (date.getMonth() !== 7) { test_log('ERROR[' + arguments.callee.name + '()]: step009'); return false; }
+	if (date.getDate() !== 12) { test_log('ERROR[' + arguments.callee.name + '()]: step010'); return false; }
+	if (date.getHours() !== 1) { test_log('ERROR[' + arguments.callee.name + '()]: step011'); return false; }
+	if (date.getMinutes() !== 2) { test_log('ERROR[' + arguments.callee.name + '()]: step012'); return false; }
+	if (date.getSeconds() !== 3) { test_log('ERROR[' + arguments.callee.name + '()]: step013'); return false; }
+	if (date.getMilliseconds() !== 0) { test_log('ERROR[' + arguments.callee.name + '()]: step014'); return false; }
+
+
+	return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function do_it()
 {
 	"use strict";
@@ -1220,6 +1252,7 @@ function do_it()
 	if (test0024() === false) { return false; }
 	if (test0025() === false) { return false; }
 	if (test0026() === false) { return false; }
+	if (test0027() === false) { return false; }
 
 	return true;
 }
