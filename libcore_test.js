@@ -318,7 +318,7 @@ function test0007()
 	a.push({ "id" : 2, "val" : "2" });
 	a.push({ "id" : 4, "val" : "4" });
 	a.push({ "id" : 6, "val" : "6" });
-	a.push({ "id" : 5, "val" : "5 too" });
+	a.push({ "id" : 5, "val" : "5" });
 	a.push({ "id" : 1, "val" : "1" });
 
 
@@ -328,7 +328,7 @@ function test0007()
 	b.push({ "id" : 2, "val" : "2" });
 	b.push({ "id" : 3, "val" : "3" });
 	b.push({ "id" : 4, "val" : "4" });
-	b.push({ "id" : 5, "val" : "5 too" });
+	b.push({ "id" : 5, "val" : "5" });
 	b.push({ "id" : 5, "val" : "5" });
 	b.push({ "id" : 6, "val" : "6" });
 	b.push({ "id" : 7, "val" : "7" });
@@ -365,17 +365,15 @@ function test0008()
 	a.push({ "id" : 2, "val" : "2" });
 	a.push({ "id" : 4, "val" : "4" });
 	a.push({ "id" : 6, "val" : "6" });
-	a.push({ "id" : 5, "val" : "5 too" });
+	a.push({ "id" : 5, "val" : "5" });
 	a.push({ "id" : 1, "val" : "1" });
 
 
 	var b = [];
-//	b.push({ "id" : 1, "val" : "1" });
 	b.push({ "id" : 1, "val" : "1" });
 	b.push({ "id" : 2, "val" : "2" });
 	b.push({ "id" : 3, "val" : "3" });
 	b.push({ "id" : 4, "val" : "4" });
-	b.push({ "id" : 5, "val" : "5 too" });
 	b.push({ "id" : 5, "val" : "5" });
 	b.push({ "id" : 6, "val" : "6" });
 	b.push({ "id" : 7, "val" : "7" });

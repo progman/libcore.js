@@ -469,7 +469,17 @@ function libcore__clone(source, flag_prototype)
 
 		if (flag_prototype === true)
 		{
-			tmp.__proto__ = source.__proto__;
+//			tmp.__proto__ = source.__proto__;
+//			tmp.__proto__ = Object.getPrototypeOf(source);
+
+			var tmp = Object.create(Object.getPrototypeOf(source));
+			for (var source_field in source)
+			{
+				if (source.hasOwnProperty(source_field))
+				{
+					tmp[source_field] = libcore.clone(source[source_field]);
+				}
+			}
 		}
 
 
