@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.2.6
+// 0.2.7
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function test_log(msg)
@@ -14,49 +14,37 @@ function test_log(msg)
 	}
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// function from http://stackoverflow.com/questions/29572466/how-do-you-find-out-the-caller-function-in-javascript-when-use-strict-is-enabled
-function get_function_name(error)
-{
-	"use strict"
-
-	let re = /(\w+)@|at (\w+) \(/g;
-	let aRegexResult = re.exec(error.stack);
-	let sCallerName = aRegexResult[1] || aRegexResult[2];
-
-	return sCallerName;
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // libcore.get_microtime(), libcore.get_unixtime()
 function test0001()
 {
 	"use strict";
 
 	var old_microtime = libcore.get_microtime();
-	if (typeof old_microtime !== 'number') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
+	if (typeof old_microtime !== 'number') { test_log('ERROR[' + this.name + '()]: step001'); return false; }
 
 
 	var old_time = libcore.get_unixtime();
-	if (typeof old_time !== 'number') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
+	if (typeof old_time !== 'number') { test_log('ERROR[' + this.name + '()]: step002'); return false; }
 
 
 	var cur_date = new Date();
-	if ((cur_date instanceof Date) === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
+	if ((cur_date instanceof Date) === false) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
 
 
 	var cur_microtime = cur_date.getTime();
-	if (typeof cur_microtime !== 'number') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+	if (typeof cur_microtime !== 'number') { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
 
 	var cur_time = cur_microtime / 1000;
-	if (typeof cur_time !== 'number') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
+	if (typeof cur_time !== 'number') { test_log('ERROR[' + this.name + '()]: step005'); return false; }
 
 
-	if ((old_time + 2) < cur_time) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
-	if (cur_time < old_time) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
+	if ((old_time + 2) < cur_time) { test_log('ERROR[' + this.name + '()]: step006'); return false; }
+	if (cur_time < old_time) { test_log('ERROR[' + this.name + '()]: step007'); return false; }
 
 
-	if ((old_microtime + 2000) < cur_microtime) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
-	if (cur_microtime < old_microtime) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step008'); return false; }
+	if ((old_microtime + 2000) < cur_microtime) { test_log('ERROR[' + this.name + '()]: step007'); return false; }
+	if (cur_microtime < old_microtime) { test_log('ERROR[' + this.name + '()]: step008'); return false; }
 
 
 	return true;
@@ -67,27 +55,27 @@ function test0002()
 {
 	"use strict";
 
-	if (libcore.is_uint(-1)    === true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (libcore.is_uint(0)     === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
-	if (libcore.is_uint(1)     === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
-	if (libcore.is_uint(+1)    === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+	if (libcore.is_uint(-1)    === true)  { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (libcore.is_uint(0)     === false) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
+	if (libcore.is_uint(1)     === false) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (libcore.is_uint(+1)    === false) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
-	if (libcore.is_uint("-1-") === true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
-	if (libcore.is_uint("-1")  === true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
-	if (libcore.is_uint("0")   === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
-	if (libcore.is_uint("1")   === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step008'); return false; }
-	if (libcore.is_uint("+1")  === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step009'); return false; }
+	if (libcore.is_uint("-1-") === true)  { test_log('ERROR[' + this.name + '()]: step005'); return false; }
+	if (libcore.is_uint("-1")  === true)  { test_log('ERROR[' + this.name + '()]: step006'); return false; }
+	if (libcore.is_uint("0")   === false) { test_log('ERROR[' + this.name + '()]: step007'); return false; }
+	if (libcore.is_uint("1")   === false) { test_log('ERROR[' + this.name + '()]: step008'); return false; }
+	if (libcore.is_uint("+1")  === false) { test_log('ERROR[' + this.name + '()]: step009'); return false; }
 
-	if (libcore.is_sint("-1-") === true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step010'); return false; }
-	if (libcore.is_sint("-1")  === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step011'); return false; }
-	if (libcore.is_sint("0")   === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step012'); return false; }
-	if (libcore.is_sint("1")   === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step013'); return false; }
-	if (libcore.is_sint("+1")  === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step014'); return false; }
+	if (libcore.is_sint("-1-") === true)  { test_log('ERROR[' + this.name + '()]: step010'); return false; }
+	if (libcore.is_sint("-1")  === false) { test_log('ERROR[' + this.name + '()]: step011'); return false; }
+	if (libcore.is_sint("0")   === false) { test_log('ERROR[' + this.name + '()]: step012'); return false; }
+	if (libcore.is_sint("1")   === false) { test_log('ERROR[' + this.name + '()]: step013'); return false; }
+	if (libcore.is_sint("+1")  === false) { test_log('ERROR[' + this.name + '()]: step014'); return false; }
 
-	if (libcore.is_sint(-1)    === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step015'); return false; }
-	if (libcore.is_sint(0)     === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step016'); return false; }
-	if (libcore.is_sint(1)     === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step017'); return false; }
-	if (libcore.is_sint(+1)    === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step018'); return false; }
+	if (libcore.is_sint(-1)    === false) { test_log('ERROR[' + this.name + '()]: step015'); return false; }
+	if (libcore.is_sint(0)     === false) { test_log('ERROR[' + this.name + '()]: step016'); return false; }
+	if (libcore.is_sint(1)     === false) { test_log('ERROR[' + this.name + '()]: step017'); return false; }
+	if (libcore.is_sint(+1)    === false) { test_log('ERROR[' + this.name + '()]: step018'); return false; }
 
 
 	return true;
@@ -98,17 +86,17 @@ function test0003()
 {
 	"use strict";
 
-	if (libcore.str2uint('-1', 5)  !== 5)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (libcore.str2uint('-1')     !== 0)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
-	if (libcore.str2uint('-1-')    !== 0)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
-	if (libcore.str2uint('0')      !== 0)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
-	if (libcore.str2uint('1')      !== 1)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
+	if (libcore.str2uint('-1', 5)  !== 5)  { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (libcore.str2uint('-1')     !== 0)  { test_log('ERROR[' + this.name + '()]: step002'); return false; }
+	if (libcore.str2uint('-1-')    !== 0)  { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (libcore.str2uint('0')      !== 0)  { test_log('ERROR[' + this.name + '()]: step004'); return false; }
+	if (libcore.str2uint('1')      !== 1)  { test_log('ERROR[' + this.name + '()]: step005'); return false; }
 
-	if (libcore.str2sint('-1')     !== -1) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
-	if (libcore.str2sint('-1-')    !== 0)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
-	if (libcore.str2sint('-1-', 5) !== 5)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step008'); return false; }
-	if (libcore.str2sint('0')      !== 0)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step009'); return false; }
-	if (libcore.str2sint('1')      !== 1)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step010'); return false; }
+	if (libcore.str2sint('-1')     !== -1) { test_log('ERROR[' + this.name + '()]: step006'); return false; }
+	if (libcore.str2sint('-1-')    !== 0)  { test_log('ERROR[' + this.name + '()]: step007'); return false; }
+	if (libcore.str2sint('-1-', 5) !== 5)  { test_log('ERROR[' + this.name + '()]: step008'); return false; }
+	if (libcore.str2sint('0')      !== 0)  { test_log('ERROR[' + this.name + '()]: step009'); return false; }
+	if (libcore.str2sint('1')      !== 1)  { test_log('ERROR[' + this.name + '()]: step010'); return false; }
 
 	return true;
 }
@@ -118,12 +106,12 @@ function test0004()
 {
 	"use strict";
 
-	if (libcore.min(-10, 10) != -10)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (libcore.min(10, 20)  !=  10)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
+	if (libcore.min(-10, 10) != -10)  { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (libcore.min(10, 20)  !=  10)  { test_log('ERROR[' + this.name + '()]: step001'); return false; }
 
 
-	if (libcore.max(-10, 10) !=  10)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (libcore.max(10, 20)  !=  20)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
+	if (libcore.max(-10, 10) !=  10)  { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (libcore.max(10, 20)  !=  20)  { test_log('ERROR[' + this.name + '()]: step001'); return false; }
 
 
 	return true;
@@ -138,36 +126,36 @@ function test0005()
 	var o2 = { "b": 2, "a": 1 }; //, s2 = JSON.stringify(o2);
 	var o3 = { "b": 2 };
 
-	if (libcore.cmp(o1, o2, true)  === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (libcore.cmp(o1, o2, false) === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
+	if (libcore.cmp(o1, o2, true)  === false) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (libcore.cmp(o1, o2, false) === false) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
 
-	if (libcore.cmp(o1, o3, false) === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
-	if (libcore.cmp(o2, o3, false) === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+	if (libcore.cmp(o1, o3, false) === false) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (libcore.cmp(o2, o3, false) === false) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
-	if (libcore.cmp(o1, o3, true)  === true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
-	if (libcore.cmp(o2, o3, true)  === true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
+	if (libcore.cmp(o1, o3, true)  === true)  { test_log('ERROR[' + this.name + '()]: step005'); return false; }
+	if (libcore.cmp(o2, o3, true)  === true)  { test_log('ERROR[' + this.name + '()]: step006'); return false; }
 
 	var f1 = function() { var z = 0; };
 	var f2 = f1;
 	var f3 = function() { var z = 0; };
 	var f4 = function() { var a = 0; };
 
-	if (libcore.cmp(f1, f2)  === false)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
-	if (libcore.cmp(f1, f3)  === false)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step008'); return false; }
-	if (libcore.cmp(f1, f4)  === true)   { test_log('ERROR[' + get_function_name(new Error()) + '()]: step009'); return false; }
+	if (libcore.cmp(f1, f2)  === false)  { test_log('ERROR[' + this.name + '()]: step007'); return false; }
+	if (libcore.cmp(f1, f3)  === false)  { test_log('ERROR[' + this.name + '()]: step008'); return false; }
+	if (libcore.cmp(f1, f4)  === true)   { test_log('ERROR[' + this.name + '()]: step009'); return false; }
 
 
 	var d1 = new Date("July 1, 1999");
 	var d2 = new Date("July 2, 1999");
 
-	if (libcore.cmp(d1, d1)  === false)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step010'); return false; }
-	if (libcore.cmp(d1, d2)  === true)   { test_log('ERROR[' + get_function_name(new Error()) + '()]: step011'); return false; }
+	if (libcore.cmp(d1, d1)  === false)  { test_log('ERROR[' + this.name + '()]: step010'); return false; }
+	if (libcore.cmp(d1, d2)  === true)   { test_log('ERROR[' + this.name + '()]: step011'); return false; }
 
 	var d3 = new Date();
 	var d4 = new Date(d3.getTime());
 
-	if (libcore.cmp(d3, d3)  === false)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step012'); return false; }
-	if (libcore.cmp(d3, d4)  === false)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step013'); return false; }
+	if (libcore.cmp(d3, d3)  === false)  { test_log('ERROR[' + this.name + '()]: step012'); return false; }
+	if (libcore.cmp(d3, d4)  === false)  { test_log('ERROR[' + this.name + '()]: step013'); return false; }
 
 
 	var ox1 = { "a" : 1, "b" : [0, 1, 2] };
@@ -175,10 +163,10 @@ function test0005()
 	var ox3 = { "b" : [0, 1, 3], "a" : 1 };
 	var ox4 = { "a" : 1, "c" : 7, "b" : [0, 1, 3] };
 
-	if (libcore.cmp(ox1, ox2, false) === false)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step014'); return false; }
-	if (libcore.cmp(ox1, ox3, false) === true)   { test_log('ERROR[' + get_function_name(new Error()) + '()]: step015'); return false; }
-	if (libcore.cmp(ox4, ox3, false) === false)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step016'); return false; }
-	if (libcore.cmp(ox4, ox3, true)  === true)   { test_log('ERROR[' + get_function_name(new Error()) + '()]: step017'); return false; }
+	if (libcore.cmp(ox1, ox2, false) === false)  { test_log('ERROR[' + this.name + '()]: step014'); return false; }
+	if (libcore.cmp(ox1, ox3, false) === true)   { test_log('ERROR[' + this.name + '()]: step015'); return false; }
+	if (libcore.cmp(ox4, ox3, false) === false)  { test_log('ERROR[' + this.name + '()]: step016'); return false; }
+	if (libcore.cmp(ox4, ox3, true)  === true)   { test_log('ERROR[' + this.name + '()]: step017'); return false; }
 
 
 	return true;
@@ -225,8 +213,8 @@ function test0006()
 	console.log('rabbit_clone2: ' + JSON.stringify(Object.getPrototypeOf(rabbit_clone2)));
 */
 
-	if (libcore.cmp(rabbit, rabbit_clone1, true) !== false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (libcore.cmp(rabbit, rabbit_clone2, true) !== true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
+	if (libcore.cmp(rabbit, rabbit_clone1, true) !== false) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (libcore.cmp(rabbit, rabbit_clone2, true) !== true)  { test_log('ERROR[' + this.name + '()]: step002'); return false; }
 
 
 	var source1 =
@@ -250,65 +238,65 @@ function test0006()
 		]
 	};
 	var target1 = libcore.clone(source1);
-	if (libcore.cmp(source1, target1, true) !== true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
+	if (libcore.cmp(source1, target1, true) !== true)  { test_log('ERROR[' + this.name + '()]: step003'); return false; }
 	target1.a.a1[0] = 4;
-	if (libcore.cmp(source1, target1, true) !== false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+	if (libcore.cmp(source1, target1, true) !== false) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
 
 	var source2 = true;
 	var target2 = libcore.clone(source2);
-	if (libcore.cmp(source2, target2, true) !== true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
+	if (libcore.cmp(source2, target2, true) !== true)  { test_log('ERROR[' + this.name + '()]: step005'); return false; }
 	target2 = false;
-	if (libcore.cmp(source2, target2, true) !== false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
+	if (libcore.cmp(source2, target2, true) !== false) { test_log('ERROR[' + this.name + '()]: step006'); return false; }
 
 
 	var source3 = 1;
 	var target3 = libcore.clone(source3);
-	if (libcore.cmp(source3, target3, true) !== true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
+	if (libcore.cmp(source3, target3, true) !== true)  { test_log('ERROR[' + this.name + '()]: step007'); return false; }
 	target3 = 0;
-	if (libcore.cmp(source3, target3, true) !== false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step008'); return false; }
+	if (libcore.cmp(source3, target3, true) !== false) { test_log('ERROR[' + this.name + '()]: step008'); return false; }
 
 
 	var source4 = "wow";
 	var target4 = libcore.clone(source4);
-	if (libcore.cmp(source4, target4, true) !== true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step009'); return false; }
+	if (libcore.cmp(source4, target4, true) !== true)  { test_log('ERROR[' + this.name + '()]: step009'); return false; }
 	target4 = "owo";
-	if (libcore.cmp(source4, target4, true) !== false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step010'); return false; }
+	if (libcore.cmp(source4, target4, true) !== false) { test_log('ERROR[' + this.name + '()]: step010'); return false; }
 
 
 	var source5 = null;
 	var target5 = libcore.clone(source5);
-	if (libcore.cmp(source5, target5, true) !== true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step011'); return false; }
+	if (libcore.cmp(source5, target5, true) !== true)  { test_log('ERROR[' + this.name + '()]: step011'); return false; }
 	target5 = "";
-	if (libcore.cmp(source5, target5, true) !== false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step012'); return false; }
+	if (libcore.cmp(source5, target5, true) !== false) { test_log('ERROR[' + this.name + '()]: step012'); return false; }
 
 
 	var source6 = undefined;
 	var target6 = libcore.clone(source6);
-	if (libcore.cmp(source6, target6, true) !== true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step013'); return false; }
+	if (libcore.cmp(source6, target6, true) !== true)  { test_log('ERROR[' + this.name + '()]: step013'); return false; }
 	target6 = "";
-	if (libcore.cmp(source6, target6, true) !== false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step014'); return false; }
+	if (libcore.cmp(source6, target6, true) !== false) { test_log('ERROR[' + this.name + '()]: step014'); return false; }
 
 
 	var source7 = function() { return 1; };
 	var target7 = libcore.clone(source7);
-	if (libcore.cmp(source7, target7, true) !== true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step015'); return false; }
+	if (libcore.cmp(source7, target7, true) !== true)  { test_log('ERROR[' + this.name + '()]: step015'); return false; }
 	target7 = function() { return 2; };
-	if (libcore.cmp(source7, target7, true) !== false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step016'); return false; }
+	if (libcore.cmp(source7, target7, true) !== false) { test_log('ERROR[' + this.name + '()]: step016'); return false; }
 
 
 	var source8 = /^foo(bar)?$/i;
 	var target8 = libcore.clone(source8);
-	if (libcore.cmp(source8, target8, true) !== true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step017'); return false; }
+	if (libcore.cmp(source8, target8, true) !== true)  { test_log('ERROR[' + this.name + '()]: step017'); return false; }
 	target8 = /^foo(too)?$/i;
-	if (libcore.cmp(source8, target8, true) !== false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step018'); return false; }
+	if (libcore.cmp(source8, target8, true) !== false) { test_log('ERROR[' + this.name + '()]: step018'); return false; }
 
 
 	var source9 = new Date(2014, 0, 1);
 	var target9 = libcore.clone(source9);
-	if (libcore.cmp(source9, target9, true) !== true)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step019'); return false; }
+	if (libcore.cmp(source9, target9, true) !== true)  { test_log('ERROR[' + this.name + '()]: step019'); return false; }
 	target9 = new Date(2014, 0, 2);
-	if (libcore.cmp(source9, target9, true) !== false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step020'); return false; }
+	if (libcore.cmp(source9, target9, true) !== false) { test_log('ERROR[' + this.name + '()]: step020'); return false; }
 
 
 	return true;
@@ -353,7 +341,7 @@ function test0007()
 
 	if (libcore.cmp(b, c, true) === false)
 	{
-		test_log('ERROR[' + get_function_name(new Error()) + '()]: step001');
+		test_log('ERROR[' + this.name + '()]: step001');
 		return false;
 	}
 
@@ -400,7 +388,7 @@ function test0008()
 
 	if (libcore.cmp(b, c, true) === false)
 	{
-		test_log('ERROR[' + get_function_name(new Error()) + '()]: step001');
+		test_log('ERROR[' + this.name + '()]: step001');
 		return false;
 	}
 
@@ -433,7 +421,7 @@ function test0009()
 
 	if (libcore.cmp(b, c, true) === false)
 	{
-		test_log('ERROR[' + get_function_name(new Error()) + '()]: step001');
+		test_log('ERROR[' + this.name + '()]: step001');
 		return false;
 	}
 
@@ -465,7 +453,7 @@ function test0010()
 
 	if (libcore.cmp(b, c, true) === false)
 	{
-		test_log('ERROR[' + get_function_name(new Error()) + '()]: step001');
+		test_log('ERROR[' + this.name + '()]: step001');
 		return false;
 	}
 
@@ -486,16 +474,16 @@ function test0011()
 
 	var y = libcore.uniq(x);
 
-	if (x.length != 4) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (x[0] != 'мама') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
-	if (x[1] != 'мыла') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
-	if (x[2] != 'мыла') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
-	if (x[3] != 'раму') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
+	if (x.length != 4) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (x[0] != 'мама') { test_log('ERROR[' + this.name + '()]: step002'); return false; }
+	if (x[1] != 'мыла') { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (x[2] != 'мыла') { test_log('ERROR[' + this.name + '()]: step004'); return false; }
+	if (x[3] != 'раму') { test_log('ERROR[' + this.name + '()]: step005'); return false; }
 
-	if (y.length != 3) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
-	if (y[0] != 'мама') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
-	if (y[1] != 'мыла') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step008'); return false; }
-	if (y[2] != 'раму') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step009'); return false; }
+	if (y.length != 3) { test_log('ERROR[' + this.name + '()]: step006'); return false; }
+	if (y[0] != 'мама') { test_log('ERROR[' + this.name + '()]: step007'); return false; }
+	if (y[1] != 'мыла') { test_log('ERROR[' + this.name + '()]: step008'); return false; }
+	if (y[2] != 'раму') { test_log('ERROR[' + this.name + '()]: step009'); return false; }
 
 
 	return true;
@@ -515,16 +503,16 @@ function test0012()
 	var y = libcore.uniq(x, 'id');
 //	test_log(JSON.stringify(y));
 
-	if (x.length != 4) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (x[0].id != 1) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
-	if (x[1].id != 2) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
-	if (x[2].id != 2) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
-	if (x[3].id != 3) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
+	if (x.length != 4) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (x[0].id != 1) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
+	if (x[1].id != 2) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (x[2].id != 2) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
+	if (x[3].id != 3) { test_log('ERROR[' + this.name + '()]: step005'); return false; }
 
-	if (y.length != 3) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
-	if (y[0].id != 1) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
-	if (y[1].id != 2) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step008'); return false; }
-	if (y[2].id != 3) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step009'); return false; }
+	if (y.length != 3) { test_log('ERROR[' + this.name + '()]: step006'); return false; }
+	if (y[0].id != 1) { test_log('ERROR[' + this.name + '()]: step007'); return false; }
+	if (y[1].id != 2) { test_log('ERROR[' + this.name + '()]: step008'); return false; }
+	if (y[2].id != 3) { test_log('ERROR[' + this.name + '()]: step009'); return false; }
 
 
 	return true;
@@ -621,19 +609,19 @@ function test0013()
 	}
 
 
-	if (test(-15, -10) !== true) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
+	if (test(-15, -10) !== true) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
 
-	if (test(-15, 10) !== true) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
+	if (test(-15, 10) !== true) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
 
-	if (test(15, 10) !== true) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
+	if (test(15, 10) !== true) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
 
-	if (test(10, 10) !== true) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+	if (test(10, 10) !== true) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
-	if (test(10, 15) !== true) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
+	if (test(10, 15) !== true) { test_log('ERROR[' + this.name + '()]: step005'); return false; }
 
-	if (test(1.1, 1.3) !== true) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
+	if (test(1.1, 1.3) !== true) { test_log('ERROR[' + this.name + '()]: step006'); return false; }
 
-	if (test(1.3, 1.1) !== true) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
+	if (test(1.3, 1.1) !== true) { test_log('ERROR[' + this.name + '()]: step007'); return false; }
 
 
 	var max = 1000;
@@ -646,7 +634,7 @@ function test0013()
 
 			if (x == (max + 1))
 			{
-				test_log('ERROR[' + get_function_name(new Error()) + '()]: step008'); return false;
+				test_log('ERROR[' + this.name + '()]: step008'); return false;
 			}
 		}
 	}
@@ -664,21 +652,21 @@ function test0014()
 
 	var b = libcore.str_crop(a, 4);
 
-	if (b !== "bird")  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (a !== "bird ") { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
+	if (b !== "bird")  { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (a !== "bird ") { test_log('ERROR[' + this.name + '()]: step002'); return false; }
 
 
 	var b = libcore.str_crop(a, 5);
 
-	if (b !== "bird ") { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
-	if (a !== "bird ") { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+	if (b !== "bird ") { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (a !== "bird ") { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
 
-	if (libcore.str_crop("123", 4) != "123") { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
-	if (libcore.str_crop("123", 3) != "123") { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
-	if (libcore.str_crop("123", 2) != "12")  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
-	if (libcore.str_crop("123", 1) != "1")   { test_log('ERROR[' + get_function_name(new Error()) + '()]: step008'); return false; }
-	if (libcore.str_crop("123", 0) != "")    { test_log('ERROR[' + get_function_name(new Error()) + '()]: step009'); return false; }
+	if (libcore.str_crop("123", 4) != "123") { test_log('ERROR[' + this.name + '()]: step005'); return false; }
+	if (libcore.str_crop("123", 3) != "123") { test_log('ERROR[' + this.name + '()]: step006'); return false; }
+	if (libcore.str_crop("123", 2) != "12")  { test_log('ERROR[' + this.name + '()]: step007'); return false; }
+	if (libcore.str_crop("123", 1) != "1")   { test_log('ERROR[' + this.name + '()]: step008'); return false; }
+	if (libcore.str_crop("123", 0) != "")    { test_log('ERROR[' + this.name + '()]: step009'); return false; }
 
 
 	return true;
@@ -700,16 +688,16 @@ function test0015()
 
 	var target = libcore.array_merge(source1, source2);
 
-	if (target.length != 5) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
+	if (target.length != 5) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
 
 	source1[0] = 6;
 	source2[0] = 7;
 
-	if (target[0] != 1) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
-	if (target[1] != 2) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
-	if (target[2] != 3) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
-	if (target[3] != 4) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
-	if (target[4] != 5) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
+	if (target[0] != 1) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
+	if (target[1] != 2) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (target[2] != 3) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
+	if (target[3] != 4) { test_log('ERROR[' + this.name + '()]: step005'); return false; }
+	if (target[4] != 5) { test_log('ERROR[' + this.name + '()]: step006'); return false; }
 
 
 	return true;
@@ -731,10 +719,10 @@ function test0016()
 
 	var z = libcore.array_crop(tmp, 3);
 
-	if (z.length != 3) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (z[0] != 1) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
-	if (z[1] != 2) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
-	if (z[2] != 3) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+	if (z.length != 3) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (z[0] != 1) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
+	if (z[1] != 2) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (z[2] != 3) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
 
 	return true;
@@ -748,21 +736,21 @@ function test0017()
 	var a = [];
 	var b = libcore.array_expand(a, 2);
 
-	if ((b instanceof Array) === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (b.length != 0) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
+	if ((b instanceof Array) === false) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (b.length != 0) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
 
 
 	var x = [];
 	x.push(1);
 	var y = libcore.array_expand(x, 3);
 
-	if ((y instanceof Array) === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
-	if (y.length != 3) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+	if ((y instanceof Array) === false) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (y.length != 3) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
 
-	if (y[0] != 1) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
-	if (y[1] != 1) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
-	if (y[2] != 1) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
+	if (y[0] != 1) { test_log('ERROR[' + this.name + '()]: step005'); return false; }
+	if (y[1] != 1) { test_log('ERROR[' + this.name + '()]: step006'); return false; }
+	if (y[2] != 1) { test_log('ERROR[' + this.name + '()]: step007'); return false; }
 
 
 	return true;
@@ -776,16 +764,16 @@ function test0018()
 	var a = [];
 	var b = libcore.array_limit(a, 2);
 
-	if ((b instanceof Array) === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (b.length != 0) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
+	if ((b instanceof Array) === false) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (b.length != 0) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
 
 
 	var i = [];
 	i.push(1);
 	var j = libcore.array_limit(i, 2);
 
-	if ((j instanceof Array) === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
-	if (j.length != 2) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+	if ((j instanceof Array) === false) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (j.length != 2) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
 
 	var x = [];
@@ -794,11 +782,11 @@ function test0018()
 	x.push(3);
 	var y = libcore.array_limit(x, 2);
 
-	if ((y instanceof Array) === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
-	if (y.length != 2) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
+	if ((y instanceof Array) === false) { test_log('ERROR[' + this.name + '()]: step005'); return false; }
+	if (y.length != 2) { test_log('ERROR[' + this.name + '()]: step006'); return false; }
 
-	if (x[0] != 1) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
-	if (x[1] != 2) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step008'); return false; }
+	if (x[0] != 1) { test_log('ERROR[' + this.name + '()]: step007'); return false; }
+	if (x[1] != 2) { test_log('ERROR[' + this.name + '()]: step008'); return false; }
 
 
 	return true;
@@ -822,9 +810,9 @@ function test0019()
 	{
 		var y = libcore.array_remix(x);
 
-		if ((y instanceof Array) === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-		if (y.length != 2) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
-		if ((x[0] != 1) || (x[1] != 2)) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
+		if ((y instanceof Array) === false) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+		if (y.length != 2) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
+		if ((x[0] != 1) || (x[1] != 2)) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
 
 
 		if ((y[0] === 1) && (y[1] === 2))
@@ -840,7 +828,7 @@ function test0019()
 		if ((flag1 === true) && (flag2 === true)) break;
 
 		count++;
-		if (count === 1000) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+		if (count === 1000) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 	}
 
 
@@ -856,7 +844,7 @@ function test0019()
 
 	if (libcore.cmp(a, b, true) === true)
 	{
-		test_log('ERROR[' + get_function_name(new Error()) + '()]: step005');
+		test_log('ERROR[' + this.name + '()]: step005');
 		return false;
 	}
 
@@ -867,7 +855,7 @@ function test0019()
 
 	if (libcore.cmp(a_sort, b_sort, true) === false)
 	{
-		test_log('ERROR[' + get_function_name(new Error()) + '()]: step006');
+		test_log('ERROR[' + this.name + '()]: step006');
 		return false;
 	}
 
@@ -893,11 +881,11 @@ function test0020()
 
 	var target1 = libcore.array_filter(source1, 666, true, false);
 
-	if (target1.length != 3) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
+	if (target1.length != 3) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
 
-	if (target1[0] != 1) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
-	if (target1[1] != 2) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
-	if (target1[2] != 3) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+	if (target1[0] != 1) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
+	if (target1[1] != 2) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (target1[2] != 3) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
 
 	var source2 = [];
@@ -913,45 +901,45 @@ function test0020()
 
 	var target2 = libcore.array_filter(source2, { "id" : 666, "value" : "666" }, true, false);
 
-	if (target2.length != 4)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
-	if (target2[0].id != 1)   { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
-	if (target2[1].id != 2)   { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
-	if (target2[2].id != 3)   { test_log('ERROR[' + get_function_name(new Error()) + '()]: step008'); return false; }
-	if (target2[3].id != 666) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step009'); return false; }
+	if (target2.length != 4)  { test_log('ERROR[' + this.name + '()]: step005'); return false; }
+	if (target2[0].id != 1)   { test_log('ERROR[' + this.name + '()]: step006'); return false; }
+	if (target2[1].id != 2)   { test_log('ERROR[' + this.name + '()]: step007'); return false; }
+	if (target2[2].id != 3)   { test_log('ERROR[' + this.name + '()]: step008'); return false; }
+	if (target2[3].id != 666) { test_log('ERROR[' + this.name + '()]: step009'); return false; }
 
 
 	var target3 = libcore.array_filter(source2, { "id" : 666 }, true, false);
 
-	if (target3.length != 3)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step010'); return false; }
+	if (target3.length != 3)  { test_log('ERROR[' + this.name + '()]: step010'); return false; }
 
-	if (target3[0].id != 1)   { test_log('ERROR[' + get_function_name(new Error()) + '()]: step011'); return false; }
-	if (target3[1].id != 2)   { test_log('ERROR[' + get_function_name(new Error()) + '()]: step012'); return false; }
-	if (target3[2].id != 3)   { test_log('ERROR[' + get_function_name(new Error()) + '()]: step013'); return false; }
+	if (target3[0].id != 1)   { test_log('ERROR[' + this.name + '()]: step011'); return false; }
+	if (target3[1].id != 2)   { test_log('ERROR[' + this.name + '()]: step012'); return false; }
+	if (target3[2].id != 3)   { test_log('ERROR[' + this.name + '()]: step013'); return false; }
 
 
 	var target4 = libcore.array_filter(source2, { "id" : 666 }, true, true);
 
-	if (target4.length != 9)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step014'); return false; }
+	if (target4.length != 9)  { test_log('ERROR[' + this.name + '()]: step014'); return false; }
 
 
 	var target5 = libcore.array_filter(source2, { "value" : "777" }, true, true);
 
-	if (target5.length != 9)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step015'); return false; }
+	if (target5.length != 9)  { test_log('ERROR[' + this.name + '()]: step015'); return false; }
 
 
 	var target6 = libcore.array_filter(source2, { "value" : "777" }, true, false);
 
-	if (target6.length != 8)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step016'); return false; }
+	if (target6.length != 8)  { test_log('ERROR[' + this.name + '()]: step016'); return false; }
 
 
 	var target7 = libcore.array_filter(source2, { "value" : 777 }, true, false);
 
-	if (target7.length != 9)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step017'); return false; }
+	if (target7.length != 9)  { test_log('ERROR[' + this.name + '()]: step017'); return false; }
 
 
 	var target8 = libcore.array_filter(source2, { "value" : "777" }, false, false);
 
-	if (target8.length != 1)  { test_log('ERROR[' + get_function_name(new Error()) + '()]: step018'); return false; }
+	if (target8.length != 1)  { test_log('ERROR[' + this.name + '()]: step018'); return false; }
 
 
 	return true;
@@ -1015,8 +1003,8 @@ function test0021()
 	}\n\
 }';
 
-	if (body1 !== res1) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (body2 !== res2) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
+	if (body1 !== res1) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (body2 !== res2) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
 
 
 	return true;
@@ -1028,16 +1016,16 @@ function test0022()
 	"use strict";
 
 	var res1 = libcore.getmonthname(0, false);
-	if (res1 !== 'мартобря') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
+	if (res1 !== 'мартобря') { test_log('ERROR[' + this.name + '()]: step001'); return false; }
 
 	var res2 = libcore.getmonthname(0, true);
-	if (res2 !== 'Мартобрь') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
+	if (res2 !== 'Мартобрь') { test_log('ERROR[' + this.name + '()]: step002'); return false; }
 
 	var res3 = libcore.getmonthname(1, false);
-	if (res3 !== 'января') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
+	if (res3 !== 'января') { test_log('ERROR[' + this.name + '()]: step003'); return false; }
 
 	var res4 = libcore.getmonthname(1, true);
-	if (res4 !== 'Январь') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+	if (res4 !== 'Январь') { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
 
 	return true;
@@ -1068,8 +1056,8 @@ function test0023()
 	var res2 = libcore.date_strip(source_date2);
 
 
-	if (libcore.cmp(res1, target_date1, true)  === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (libcore.cmp(res2, target_date2, true)  === false) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
+	if (libcore.cmp(res1, target_date1, true)  === false) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (libcore.cmp(res2, target_date2, true)  === false) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
 
 
 	return true;
@@ -1081,10 +1069,10 @@ function test0024()
 	"use strict";
 
 	var res1 = libcore.convert_date(0, 0);
-	if (res1 !== '01&nbsp;января&nbsp;1970') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
+	if (res1 !== '01&nbsp;января&nbsp;1970') { test_log('ERROR[' + this.name + '()]: step001'); return false; }
 
 	var res2 = libcore.convert_date(0, 1352032868);
-	if (res2 !== '04&nbsp;ноября&nbsp;2012') { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
+	if (res2 !== '04&nbsp;ноября&nbsp;2012') { test_log('ERROR[' + this.name + '()]: step002'); return false; }
 
 
 	var ut = libcore.get_unixtime();
@@ -1101,11 +1089,11 @@ function test0024()
 
 	var res3 = libcore.convert_date(0, ut);
 	var val3 = 'Сегодня&nbsp;в&nbsp;' + hour + ':' + min;
-	if (res3 !== val3) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
+	if (res3 !== val3) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
 
 	var res4 = libcore.convert_date(0, ut - (60 * 60 * 24));
 	var val4 = 'Вчера&nbsp;в&nbsp;' + hour + ':' + min;
-	if (res4 !== val4) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+	if (res4 !== val4) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
 
 	return true;
@@ -1125,37 +1113,37 @@ function test0025()
 	date1 = new Date(1974, 7, 12);
 	date2 = new Date(2016, 7, 11);
 	age = libcore.get_age(date1, date2);
-	if (age !== 41) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
+	if (age !== 41) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
 
 
 	date1 = new Date(1974, 7, 12);
 	date2 = new Date(2016, 7, 12);
 	age = libcore.get_age(date1, date2);
-	if (age !== 42) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
+	if (age !== 42) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
 
 
 	date1 = new Date(1974, 7, 12);
 	date2 = new Date(2016, 7, 13);
 	age = libcore.get_age(date1, date2);
-	if (age !== 42) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
+	if (age !== 42) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
 
 
 	date1 = new Date(1974, 7, 12);
 	date2 = new Date(2017, 7, 11);
 	age = libcore.get_age(date1, date2);
-	if (age !== 42) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
+	if (age !== 42) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
 
 	date1 = new Date(1974, 7, 12);
 	date2 = new Date(2017, 7, 12);
 	age = libcore.get_age(date1, date2);
-	if (age !== 43) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
+	if (age !== 43) { test_log('ERROR[' + this.name + '()]: step005'); return false; }
 
 
 	date1 = new Date(1974, 7, 12);
 	date2 = new Date(2017, 7, 13);
 	age = libcore.get_age(date1, date2);
-	if (age !== 43) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
+	if (age !== 43) { test_log('ERROR[' + this.name + '()]: step006'); return false; }
 
 
 	return true;
@@ -1176,26 +1164,26 @@ function test0026()
 	timezone = +3;
 	date2 = libcore.date_shift_timezone(date1, timezone);
 
-	if (date2.getFullYear() !== 1974) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step001'); return false; }
-	if (date2.getMonth() !== 7) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step002'); return false; }
-	if (date2.getDate() !== 12) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step003'); return false; }
-	if (date2.getHours() !== 3) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step004'); return false; }
-	if (date2.getMinutes() !== 0) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step005'); return false; }
-	if (date2.getSeconds() !== 0) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step006'); return false; }
-	if (date2.getMilliseconds() !== 0) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step007'); return false; }
+	if (date2.getFullYear() !== 1974) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (date2.getMonth() !== 7) { test_log('ERROR[' + this.name + '()]: step002'); return false; }
+	if (date2.getDate() !== 12) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (date2.getHours() !== 3) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
+	if (date2.getMinutes() !== 0) { test_log('ERROR[' + this.name + '()]: step005'); return false; }
+	if (date2.getSeconds() !== 0) { test_log('ERROR[' + this.name + '()]: step006'); return false; }
+	if (date2.getMilliseconds() !== 0) { test_log('ERROR[' + this.name + '()]: step007'); return false; }
 
 
 	date1 = new Date(1974, 7, 12);
 	timezone = -3;
 	date2 = libcore.date_shift_timezone(date1, timezone);
 
-	if (date2.getFullYear() !== 1974) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step008'); return false; }
-	if (date2.getMonth() !== 7) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step009'); return false; }
-	if (date2.getDate() !== 11) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step010'); return false; }
-	if (date2.getHours() !== 21) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step011'); return false; }
-	if (date2.getMinutes() !== 0) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step012'); return false; }
-	if (date2.getSeconds() !== 0) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step013'); return false; }
-	if (date2.getMilliseconds() !== 0) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step014'); return false; }
+	if (date2.getFullYear() !== 1974) { test_log('ERROR[' + this.name + '()]: step008'); return false; }
+	if (date2.getMonth() !== 7) { test_log('ERROR[' + this.name + '()]: step009'); return false; }
+	if (date2.getDate() !== 11) { test_log('ERROR[' + this.name + '()]: step010'); return false; }
+	if (date2.getHours() !== 21) { test_log('ERROR[' + this.name + '()]: step011'); return false; }
+	if (date2.getMinutes() !== 0) { test_log('ERROR[' + this.name + '()]: step012'); return false; }
+	if (date2.getSeconds() !== 0) { test_log('ERROR[' + this.name + '()]: step013'); return false; }
+	if (date2.getMilliseconds() !== 0) { test_log('ERROR[' + this.name + '()]: step014'); return false; }
 
 
 	return true;
@@ -1222,13 +1210,13 @@ function test0027()
 //	test_log('date.getMilliseconds() :' + date.getMilliseconds());
 
 
-	if (date.getFullYear() !== 1974) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step008'); return false; }
-	if (date.getMonth() !== 7) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step009'); return false; }
-	if (date.getDate() !== 12) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step010'); return false; }
-	if (date.getHours() !== 1) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step011'); return false; }
-	if (date.getMinutes() !== 2) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step012'); return false; }
-	if (date.getSeconds() !== 3) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step013'); return false; }
-	if (date.getMilliseconds() !== 0) { test_log('ERROR[' + get_function_name(new Error()) + '()]: step014'); return false; }
+	if (date.getFullYear() !== 1974) { test_log('ERROR[' + this.name + '()]: step008'); return false; }
+	if (date.getMonth() !== 7) { test_log('ERROR[' + this.name + '()]: step009'); return false; }
+	if (date.getDate() !== 12) { test_log('ERROR[' + this.name + '()]: step010'); return false; }
+	if (date.getHours() !== 1) { test_log('ERROR[' + this.name + '()]: step011'); return false; }
+	if (date.getMinutes() !== 2) { test_log('ERROR[' + this.name + '()]: step012'); return false; }
+	if (date.getSeconds() !== 3) { test_log('ERROR[' + this.name + '()]: step013'); return false; }
+	if (date.getMilliseconds() !== 0) { test_log('ERROR[' + this.name + '()]: step014'); return false; }
 
 
 	return true;
@@ -1238,33 +1226,34 @@ function do_it()
 {
 	"use strict";
 
-	if (test0001() === false) { return false; }
-	if (test0002() === false) { return false; }
-	if (test0003() === false) { return false; }
-	if (test0004() === false) { return false; }
-	if (test0005() === false) { return false; }
-	if (test0006() === false) { return false; }
-	if (test0007() === false) { return false; }
-	if (test0008() === false) { return false; }
-	if (test0009() === false) { return false; }
-	if (test0010() === false) { return false; }
-	if (test0011() === false) { return false; }
-	if (test0012() === false) { return false; }
-	if (test0013() === false) { return false; }
-	if (test0014() === false) { return false; }
-	if (test0015() === false) { return false; }
-	if (test0016() === false) { return false; }
-	if (test0017() === false) { return false; }
-	if (test0018() === false) { return false; }
-	if (test0019() === false) { return false; }
-	if (test0020() === false) { return false; }
-	if (test0021() === false) { return false; }
-	if (test0022() === false) { return false; }
-	if (test0023() === false) { return false; }
-	if (test0024() === false) { return false; }
-	if (test0025() === false) { return false; }
-	if (test0026() === false) { return false; }
-	if (test0027() === false) { return false; }
+// bind for work this.name
+	if (test0001.bind(test0001)() === false) { return false; }
+	if (test0002.bind(test0002)() === false) { return false; }
+	if (test0003.bind(test0003)() === false) { return false; }
+	if (test0004.bind(test0004)() === false) { return false; }
+	if (test0005.bind(test0005)() === false) { return false; }
+	if (test0006.bind(test0006)() === false) { return false; }
+	if (test0007.bind(test0007)() === false) { return false; }
+	if (test0008.bind(test0008)() === false) { return false; }
+	if (test0009.bind(test0009)() === false) { return false; }
+	if (test0010.bind(test0010)() === false) { return false; }
+	if (test0011.bind(test0011)() === false) { return false; }
+	if (test0012.bind(test0012)() === false) { return false; }
+	if (test0013.bind(test0013)() === false) { return false; }
+	if (test0014.bind(test0014)() === false) { return false; }
+	if (test0015.bind(test0015)() === false) { return false; }
+	if (test0016.bind(test0016)() === false) { return false; }
+	if (test0017.bind(test0017)() === false) { return false; }
+	if (test0018.bind(test0018)() === false) { return false; }
+	if (test0019.bind(test0019)() === false) { return false; }
+	if (test0020.bind(test0020)() === false) { return false; }
+	if (test0021.bind(test0021)() === false) { return false; }
+	if (test0022.bind(test0022)() === false) { return false; }
+	if (test0023.bind(test0023)() === false) { return false; }
+	if (test0024.bind(test0024)() === false) { return false; }
+	if (test0025.bind(test0025)() === false) { return false; }
+	if (test0026.bind(test0026)() === false) { return false; }
+	if (test0027.bind(test0027)() === false) { return false; }
 
 	test_log('ok, test passed');
 	return true;
