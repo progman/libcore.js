@@ -213,8 +213,12 @@ function test0006()
 	console.log('rabbit_clone2: ' + JSON.stringify(Object.getPrototypeOf(rabbit_clone2)));
 */
 
-	if (libcore.cmp(rabbit, rabbit_clone1, true) !== false) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
-	if (libcore.cmp(rabbit, rabbit_clone2, true) !== true)  { test_log('ERROR[' + this.name + '()]: step002'); return false; }
+	if (libcore.cmp(rabbit, rabbit_clone1, true)                        !== false) { test_log('ERROR[' + this.name + '()]: step001'); return false; }
+	if (libcore.cmp(rabbit, rabbit_clone2, true)                        !== true)  { test_log('ERROR[' + this.name + '()]: step002'); return false; }
+
+	if (libcore.cmp(animal, Object.getPrototypeOf(rabbit), true)        !== true)  { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (libcore.cmp(animal, Object.getPrototypeOf(rabbit_clone1), true) !== false) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
+	if (libcore.cmp(animal, Object.getPrototypeOf(rabbit_clone2), true) !== true)  { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
 
 	var source1 =
