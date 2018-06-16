@@ -1260,7 +1260,7 @@ function libcore__convert_date(gmt_offset, unixtime)
 
 //alert(date_strip(date_now));
 
-	xdate.setTime((unixtime * 1000) + (gmt_offset * 60 * 60 * 1000));
+	xdate.setTime((unixtime * 1000) + (gmt_offset * 60 * 60 * 1000) + (xdate.getTimezoneOffset() * 60 * 1000));
 
 
 //alert('xdate.getTime():' + xdate.getTime() + ', date_day_now.getTime():' + date_day_now.getTime() + ', date_day_next.getTime():' + date_day_next.getTime());

@@ -1089,11 +1089,11 @@ function test0024()
 	if (min.length  !== 2) min  = '0' + min;
 
 
-	var res3 = libcore.convert_date(0, ut);
+	var res3 = libcore.convert_date(3, ut);
 	var val3 = 'Сегодня&nbsp;в&nbsp;' + hour + ':' + min;
 	if (res3 !== val3) { test_log('ERROR[' + this.name + '()]: step003'); return false; }
 
-	var res4 = libcore.convert_date(0, ut - (60 * 60 * 24));
+	var res4 = libcore.convert_date(3, ut - (60 * 60 * 24));
 	var val4 = 'Вчера&nbsp;в&nbsp;' + hour + ':' + min;
 	if (res4 !== val4) { test_log('ERROR[' + this.name + '()]: step004'); return false; }
 
