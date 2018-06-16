@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [ "$(which nodejs)" == "" ];
+if [ "$(which node)" == "" ];
 then
-	echo "ERROR: nodejs not found";
+	echo "ERROR: node not found";
 	exit 1;
 fi
 
-nodejs test.js;
+node test.js;
 
 exit 0;
