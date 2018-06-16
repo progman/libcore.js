@@ -2,6 +2,8 @@
 // 0.3.5
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// PLEASE DO NOT EDIT !!! THIS FILE IS GENERATED FROM FILES FROM DIR src BY make.sh
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 var libcore =
 {
 	"log"                 : libcore__log,
@@ -34,214 +36,363 @@ var libcore =
 	"str2date"            : libcore__str2date
 };
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * show message on browser console
- * \param[in] msg message
- * \param[in] flag_enable turn on show
- */
-function libcore__log(msg, flag_enable)
-{
-	"use strict";
-
-	if (typeof console === "undefined")
-	{
-		return;
-	}
-
-	if ((typeof flag_enable === 'boolean') && (flag_enable === false))
-	{
-		return;
-	}
-
-	console.log(msg);
-}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
- * get current microtime
- * \return microtime
+ * crop array
+ * \param[in] source source array
+ * \param[in] limit length limit
+ * \return result array
  */
-function libcore__get_microtime()
+function libcore__array_crop(source, limit)
 {
 	"use strict";
 
-	var current_date = new Date();
-	return current_date.getTime();
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * get current unixtime
- * \return unixtime
- */
-function libcore__get_unixtime()
-{
-	"use strict";
-
-	var unixtime = libcore.get_microtime() / 1000;
-
-	return unixtime;
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * check whether a string is equivalent to regexp [+]?[0-9]+
- * \param[in] val string for check
- * \return flag correct check
- */
-function libcore__is_uint(val)
-{
-	"use strict";
-
-	if ((typeof val !== 'number') && (typeof val !== 'string'))
+	if ((source instanceof Array) === false)
 	{
-		return false;
+		return [];
 	}
 
-	var str = String(val);
-
-	if (str.length === 0)
+	if (source.length < limit)
 	{
-		return false;
+		return source;
 	}
 
-	for (var i=0; i < str.length; i++)
+	return source.slice(0, limit);
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * expand array
+ * \param[in] source source array
+ * \param[in] limit length limit
+ * \return result array
+ */
+function libcore__array_expand(source, limit)
+{
+	"use strict";
+
+	if ((source instanceof Array) === false)
 	{
-		if ((str[i] < '0') || (str[i] > '9'))
+		return [];
+	}
+
+	if (source.length === 0)
+	{
+		return [];
+	}
+
+	if (source.length >= limit)
+	{
+		return source;
+	}
+
+
+	var tmp = libcore.clone(source);
+
+	for (;;)
+	{
+		if (tmp.length === limit) break;
+
+
+		var min = 0;
+		var max = source.length - 1;
+
+		tmp.push(libcore.clone(source[libcore.rnd(min, max)]));
+	}
+
+	return tmp;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * filter array elements
+ * \param[in] source source array
+ * \param[in] filter filter item
+ * \param[in] flag_invert flag invert filtring
+ * \param[in] flag_identity flag for enable hard identity
+ * \return result array
+ */
+function libcore__array_filter(source, filter, flag_invert, flag_identity)
+{
+	"use strict";
+
+	if ((source instanceof Array) === false)
+	{
+		return [];
+	}
+
+
+	if (typeof flag_invert !== 'boolean')
+	{
+		flag_invert = false;
+	}
+
+
+	var target = [];
+
+
+	if ((filter instanceof Array) === false)
+	{
+		for (var i = 0; i < source.length; i++)
 		{
-			if (i === 0)
+			var flag_cmp = libcore.cmp(source[i], filter, flag_identity);
+
+			if
+			(
+				((flag_cmp === true)  && (flag_invert === false)) ||
+				((flag_cmp === false) && (flag_invert === true))
+			)
 			{
-				if (str[i] === '+')
+				target.push(source[i]);
+			}
+		}
+	}
+	else
+	{
+		for (var i = 0; i < source.length; i++)
+		{
+			for (var j = 0; j < filter.length; j++)
+			{
+				var flag_cmp = libcore.cmp(source[i], filter[j], flag_identity);
+
+				if
+				(
+					((flag_cmp === true)  && (flag_invert === false)) ||
+					((flag_cmp === false) && (flag_invert === true))
+				)
 				{
-					continue;
+					target.push(source[i]);
 				}
 			}
-			return false;
 		}
 	}
 
-	return true;
+
+	return target;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
- * check whether a string is equivalent to regexp [-+]?[0-9]+
- * \param[in] val string for check
- * \return flag correct check
+ * set length array
+ * \param[in] source source array
+ * \param[in] limit length limit
+ * \return result array
  */
-function libcore__is_sint(val)
+function libcore__array_limit(source, limit)
 {
 	"use strict";
 
-	if ((typeof val !== 'number') && (typeof val !== 'string'))
+	if ((source instanceof Array) === false)
 	{
-		return false;
+		return [];
 	}
 
-	var str = String(val);
-
-	if (str.length === 0)
+	if (source.length > limit)
 	{
-		return false;
+		return libcore.array_crop(source, limit);
 	}
 
-	for (var i=0; i < str.length; i++)
+	return libcore.array_expand(source, limit);
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * concat two arrays
+ * \param[in] source1 array one
+ * \param[in] source2 array two
+ * \return result array
+ */
+function libcore__array_merge(source1, source2)
+{
+	"use strict";
+
+	if ((source1 instanceof Array) === false)
 	{
-		if ((str[i] < '0') || (str[i] > '9'))
+		return [];
+	}
+
+	if ((source2 instanceof Array) === false)
+	{
+		return [];
+	}
+
+	return source1.concat(source2);
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * remix array elements
+ * \param[in] source source array
+ * \return result array
+ */
+function libcore__array_remix(source)
+{
+	"use strict";
+
+	if ((source instanceof Array) === false)
+	{
+		return [];
+	}
+
+	if (source.length === 0) return source;
+
+	if (source.length === 1) return source;
+
+
+	var target = libcore.clone(source);
+	for (var i = target.length - 1; i > -1; i--)
+	{
+		var j = libcore.rnd(0, i);
+
+		if (j !== i)
 		{
-			if (i === 0)
-			{
-				if ((str[i] === '-') || (str[i] === '+'))
-				{
-					continue;
-				}
-			}
-			return false;
+			var item  = libcore.clone(target[i]);
+			target[i] = libcore.clone(target[j]);
+			target[j] = item;
 		}
 	}
 
-	return true;
+/*
+	var index_list = [];
+	for (var i=0; i < source.length; i++)
+	{
+		index_list.push(i);
+	}
+
+
+	var target = [];
+	for (;;)
+	{
+		if (index_list.length === 0) break;
+
+		var index = libcore.rnd(0, index_list.length - 1);
+		target.push(libcore.clone(source[index_list[index]]));
+
+		index_list.splice(index, 1);
+	}
+*/
+
+	return target;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
- * convert string to uint or return value_default
- * \param[in] str input string
- * \param[in] value_default default value
- * \return uint
+ * clone variable
+ * \param[in] source source variable
+ * \return cloned variable
  */
-function libcore__str2uint(str, value_default)
+function libcore__clone(source, flag_prototype)
 {
 	"use strict";
 
-	if (typeof value_default !== 'number')
-	{
-		value_default = 0;
-	}
-	var value = value_default;
+/*
+	for simple objects use:
+	var target = { "field1" : source.field1, "field1" : source.field2 };
+*/
 
-	if (libcore.is_uint(str) === true)
+	if (typeof source === 'boolean')
 	{
-		value = parseInt(str, 10);
+		return source;
 	}
 
-	return value;
+
+	if (typeof source === 'number')
+	{
+		return source;
+	}
+
+
+	if (typeof source === 'string')
+	{
+		return source;
+	}
+
+
+	if (source === null)
+	{
+		return source;
+	}
+
+
+	if (typeof source === 'undefined')
+	{
+		return source;
+	}
+
+
+	if (typeof source === 'function')
+	{
+		return source;
+	}
+
+
+	if ((source instanceof RegExp) === true)
+	{
+		return source;
+	}
+
+
+	if ((source instanceof Date) === true)
+	{
+		var tmp = new Date();
+		tmp.setTime(source.getTime());
+		return tmp;
+	}
+
+
+	if ((source instanceof Array) === true)
+	{
+//		return source.slice(0);
+
+		var tmp = [];
+		for (var i=0; i < source.length; i++)
+		{
+			tmp.push(libcore.clone(source[i]));
+		}
+		return tmp;
+	}
+
+
+	if (typeof source === 'object')
+	{
+		var tmp = {};
+//		var tmp = new source.constructor();
+//		var tmp = source.constructor();
+//		var tmp = Object.create(source);
+//		var tmp = Object.assign({}, source);
+
+
+		if (flag_prototype === true)
+		{
+//			tmp.__proto__ = source.__proto__;
+//			tmp.__proto__ = Object.getPrototypeOf(source);
+
+			var tmp = Object.create(Object.getPrototypeOf(source));
+			for (var source_field in source)
+			{
+				if (source.hasOwnProperty(source_field))
+				{
+					tmp[source_field] = libcore.clone(source[source_field]);
+				}
+			}
+		}
+
+
+		for (var source_field in source)
+		{
+			if (source.hasOwnProperty(source_field))
+			{
+				tmp[source_field] = libcore.clone(source[source_field]);
+			}
+		}
+		return tmp;
+	}
+
+
+	libcore.log('WARNING[libcore.clone()]: not implementation type ' + typeof source);
+	return JSON.parse(JSON.stringify(source));
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * convert string to sint or return value_default
- * \param[in] str input string
- * \param[in] value_default default value
- * \return sint
- */
-function libcore__str2sint(str, value_default)
-{
-	"use strict";
-
-	if (typeof value_default !== 'number')
-	{
-		value_default = 0;
-	}
-	var value = value_default;
-
-	if (libcore.is_sint(str) === true)
-	{
-		value = parseInt(str, 10);
-	}
-
-	return value;
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * find minumal number
- * \param[in] val1 number one
- * \param[in] val1 number two
- * \return minimal number of number one and number two
- */
-function libcore__min(val1, val2)
-{
-	"use strict";
-
-	if (val1 < val2)
-	{
-		return val1;
-	}
-
-	return val2;
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * find maximal number
- * \param[in] val1 number one
- * \param[in] val1 number two
- * \return maximal number of number one and number two
- */
-function libcore__max(val1, val2)
-{
-	"use strict";
-
-	if (val1 > val2)
-	{
-		return val1;
-	}
-
-	return val2;
-}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
  * compare two arguments
@@ -381,551 +532,382 @@ function libcore__cmp(source, target, flag_identity)
 	return false;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
- * clone variable
- * \param[in] source source variable
- * \return cloned variable
+ * convert unixtime to user friedly text
+ * \param[in] gmt_offset gmt offset
+ * \param[in] unixtime unixtime
+ * \return result user friedly text
  */
-function libcore__clone(source, flag_prototype)
+function libcore__convert_date(gmt_offset, unixtime)
 {
 	"use strict";
 
-/*
-	for simple objects use:
-	var target = { "field1" : source.field1, "field1" : source.field2 };
-*/
-
-	if (typeof source === 'boolean')
+	unixtime = Number(unixtime);
+	if (isNaN(unixtime) === true)
 	{
-		return source;
+		unixtime = 0;
 	}
 
 
-	if (typeof source === 'number')
+	var date_day_now = new Date();
+	date_day_now = libcore.date_strip(date_day_now);
+
+	var date_day_prev = new Date();
+	date_day_prev.setTime(date_day_prev.getTime() - (60*60*24*1000));
+	date_day_prev = libcore.date_strip(date_day_prev);
+
+	var date_day_next = new Date();
+	date_day_next.setTime(date_day_next.getTime() + (60*60*24*1000));
+	date_day_next = libcore.date_strip(date_day_next);
+
+	var xdate = new Date();
+
+//alert(date_strip(date_now));
+
+	xdate.setTime((unixtime * 1000) + (gmt_offset * 60 * 60 * 1000) + (xdate.getTimezoneOffset() * 60 * 1000));
+
+
+//alert('xdate.getTime():' + xdate.getTime() + ', date_day_now.getTime():' + date_day_now.getTime() + ', date_day_next.getTime():' + date_day_next.getTime());
+	if
+	(
+		(xdate.getTime() > date_day_now.getTime()) &&
+		(xdate.getTime() < date_day_next.getTime())
+	)
 	{
-		return source;
+		var str = 'Сегодня&nbsp;в&nbsp;';
+
+		var hour = String(xdate.getHours())
+		if (hour.length === 1) hour = '0' + hour;
+		str = str + hour;
+
+		str = str + ':';
+
+		var min = String(xdate.getMinutes())
+		if (min.length === 1) min = '0' + min;
+		str = str + min;
+
+		return str;
+	}
+
+//alert('xdate.getTime():' + xdate.getTime() + ', date_day_now.getTime():' + date_day_now.getTime() + ', date_day_prev.getTime():' + date_day_prev.getTime());
+	if
+	(
+		(xdate.getTime() < date_day_now.getTime()) &&
+		(xdate.getTime() > date_day_prev.getTime())
+	)
+	{
+		var str = 'Вчера&nbsp;в&nbsp;';
+
+		var hour = String(xdate.getHours())
+		if (hour.length === 1) hour = '0' + hour;
+		str = str + hour;
+
+		str = str + ':';
+
+		var min = String(xdate.getMinutes())
+		if (min.length === 1) min = '0' + min;
+		str = str + min;
+
+		return str;
 	}
 
 
-	if (typeof source === 'string')
+	var str = '';
+	var day = String(xdate.getDate());
+	if (day.length === 1) day = '0' + day;
+	str = str + day;
+
+	str = str + '&nbsp;';
+
+	var month = String(xdate.getMonth() + 1);
+	if (month.length === 1) month = '0' + month;
+
+	str = str + libcore.getmonthname(month);
+
+
+	var year = xdate.getFullYear();
+	var year_now = date_day_now.getFullYear();
+
+	if (year !== year_now)
 	{
-		return source;
+		str = str + '&nbsp;';
+		str = str + year;
 	}
 
 
-	if (source === null)
+//	str = str + ', ';
+//	str = str + date('H:i', strtotime($unixtime));
+
+
+	if (str === '30 ноября 1999, 00:00')
 	{
-		return source;
+		return 'unknown';
 	}
 
 
-	if (typeof source === 'undefined')
-	{
-		return source;
-	}
-
-
-	if (typeof source === 'function')
-	{
-		return source;
-	}
-
-
-	if ((source instanceof RegExp) === true)
-	{
-		return source;
-	}
-
-
-	if ((source instanceof Date) === true)
-	{
-		var tmp = new Date();
-		tmp.setTime(source.getTime());
-		return tmp;
-	}
-
-
-	if ((source instanceof Array) === true)
-	{
-//		return source.slice(0);
-
-		var tmp = [];
-		for (var i=0; i < source.length; i++)
-		{
-			tmp.push(libcore.clone(source[i]));
-		}
-		return tmp;
-	}
-
-
-	if (typeof source === 'object')
-	{
-		var tmp = {};
-//		var tmp = new source.constructor();
-//		var tmp = source.constructor();
-//		var tmp = Object.create(source);
-//		var tmp = Object.assign({}, source);
-
-
-		if (flag_prototype === true)
-		{
-//			tmp.__proto__ = source.__proto__;
-//			tmp.__proto__ = Object.getPrototypeOf(source);
-
-			var tmp = Object.create(Object.getPrototypeOf(source));
-			for (var source_field in source)
-			{
-				if (source.hasOwnProperty(source_field))
-				{
-					tmp[source_field] = libcore.clone(source[source_field]);
-				}
-			}
-		}
-
-
-		for (var source_field in source)
-		{
-			if (source.hasOwnProperty(source_field))
-			{
-				tmp[source_field] = libcore.clone(source[source_field]);
-			}
-		}
-		return tmp;
-	}
-
-
-	libcore.log('WARNING[libcore.clone()]: not implementation type ' + typeof source);
-	return JSON.parse(JSON.stringify(source));
+	return str;
 }
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
- * sort array
- * \param[in] input input array
- * \param[in] sort_factor field name or sort function for array of objects
- * \return sort array
+ * shift date use timezone
+ * \param[in] date date
+ * \param[in] timezone timezone
+ * \return result shifted date
  */
-function libcore__sort(input, sort_factor)
+function libcore__date_shift_timezone(date, timezone)
 {
-	"use strict";
+	var null_date = new Date(1970, 0, 1);
+	if ((date instanceof Date) === false) return null_date;
+	if (typeof timezone !== 'number') return null_date;
 
-	if ((input instanceof Array) === false)
-	{
-		return [];
-	}
+	var total_ms = date.getTime();
+	date.setTime(total_ms + (timezone * 60 * 60 * 1000));
 
-
-	var output = libcore.clone(input); // отвязываем массив
-
-
-	for (;;)
-	{
-		if (typeof sort_factor === "function")
-		{
-			output.sort(sort_factor);
-			break;
-		}
-
-
-		if (typeof sort_factor === "string")
-		{
-			output.sort(function(a, b)
-			{
-				if (a[sort_factor]  <  b[sort_factor])
-				{
-					return -1;
-				}
-
-				if (a[sort_factor]  >  b[sort_factor])
-				{
-					return 1;
-				}
-
-				if (a[sort_factor] === b[sort_factor])
-				{
-					return 0;
-				}
-			});
-			break;
-		}
-
-
-		output.sort();
-		break;
-	}
-
-
-	return output;
-
-
-/*
-	if ((input instanceof Array) === false)
-	{
-		return [];
-	}
-
-
-	if (typeof field_name !== "string")
-	{
-		var output = libcore.clone(input); // отвязываем массив
-		output.sort();
-		return output;
-	}
-
-
-	var output = [];
-	var input_free = libcore.clone(input); // отвязываем массив
-	var field_list = [];
-
-	for (var i=0; i < input_free.length; i++)
-	{
-		field_list.push(input_free[i][field_name]);
-	}
-	field_list = libcore__sort(field_list);
-
-	for (var i=0; i < field_list.length; i++)
-	{
-		for (var j=0; j < input_free.length; j++)
-		{
-			if (input_free[j][field_name] === field_list[i])
-			{
-				output.push(libcore.clone(input_free[j]));
-				input_free[j][field_name] = null;
-				break;
-			}
-		}
-	}
-
-
-	return output;
-*/
+	return date;
 }
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
- * uniq array
- * \param[in] input input array
- * \param[in] sort_factor field name or sort function for array of objects
- * \return uniq array
+ * strip date in date object
+ * \param[in] source date object
+ * \return result date object
  */
-function libcore__uniq(input, sort_factor)
+function libcore__date_strip(source_date)
 {
 	"use strict";
 
-	if ((input instanceof Array) === false)
+	var target_date = new Date();
+
+	if ((source_date instanceof Date) === false)
 	{
-		return [];
-	}
-
-
-	var input_free = libcore.sort(input, sort_factor);
-
-
-// set value not equal input_free[0]
-	var value = false;
-	if (input_free.length !== 0)
-	{
-		if (input_free[0] === value)
-		{
-			value = true;
-		}
-	}
-
-
-	var output = [];
-	for (var i=0; i < input_free.length; i++)
-	{
-		if (libcore.cmp(value, input_free[i], true) === false)
-		{
-			value = input_free[i];
-			output.push(value);
-		}
-	}
-
-
-	return output;
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * get rnd number from min to max
- * \param[in] min minimal number
- * \param[in] max maximal number
- * \return rnd number from min to max
- */
-function libcore__rnd(min, max)
-{
-	"use strict";
-
-	if (min === max)
-	{
-		return min;
-	}
-
-	if (max < min)
-	{
-		var tmp = min;
-		min = max;
-		max = tmp;
-	}
-
-	if ((Math.floor(min) !== min) || (Math.floor(max) !== max))
-	{
-		return Math.random() * (max - min) + min;
-	}
-
-	var rnd = Math.floor(Math.random() * (max - min + 1)) + min;
-
-	return (rnd > max) ? max : rnd;
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * crop string
- * \param[in] source string
- * \param[in] limit length limit
- * \return croped string
- */
-function libcore__str_crop(source, limit)
-{
-	"use strict";
-
-	if (source.length < limit)
-	{
-		return source;
-	}
-
-	return source.substr(0, limit);
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * concat two arrays
- * \param[in] source1 array one
- * \param[in] source2 array two
- * \return result array
- */
-function libcore__array_merge(source1, source2)
-{
-	"use strict";
-
-	if ((source1 instanceof Array) === false)
-	{
-		return [];
-	}
-
-	if ((source2 instanceof Array) === false)
-	{
-		return [];
-	}
-
-	return source1.concat(source2);
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * crop array
- * \param[in] source source array
- * \param[in] limit length limit
- * \return result array
- */
-function libcore__array_crop(source, limit)
-{
-	"use strict";
-
-	if ((source instanceof Array) === false)
-	{
-		return [];
-	}
-
-	if (source.length < limit)
-	{
-		return source;
-	}
-
-	return source.slice(0, limit);
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * expand array
- * \param[in] source source array
- * \param[in] limit length limit
- * \return result array
- */
-function libcore__array_expand(source, limit)
-{
-	"use strict";
-
-	if ((source instanceof Array) === false)
-	{
-		return [];
-	}
-
-	if (source.length === 0)
-	{
-		return [];
-	}
-
-	if (source.length >= limit)
-	{
-		return source;
-	}
-
-
-	var tmp = libcore.clone(source);
-
-	for (;;)
-	{
-		if (tmp.length === limit) break;
-
-
-		var min = 0;
-		var max = source.length - 1;
-
-		tmp.push(libcore.clone(source[libcore.rnd(min, max)]));
-	}
-
-	return tmp;
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * set length array
- * \param[in] source source array
- * \param[in] limit length limit
- * \return result array
- */
-function libcore__array_limit(source, limit)
-{
-	"use strict";
-
-	if ((source instanceof Array) === false)
-	{
-		return [];
-	}
-
-	if (source.length > limit)
-	{
-		return libcore.array_crop(source, limit);
-	}
-
-	return libcore.array_expand(source, limit);
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * remix array elements
- * \param[in] source source array
- * \return result array
- */
-function libcore__array_remix(source)
-{
-	"use strict";
-
-	if ((source instanceof Array) === false)
-	{
-		return [];
-	}
-
-	if (source.length === 0) return source;
-
-	if (source.length === 1) return source;
-
-
-	var target = libcore.clone(source);
-	for (var i = target.length - 1; i > -1; i--)
-	{
-		var j = libcore.rnd(0, i);
-
-		if (j !== i)
-		{
-			var item  = libcore.clone(target[i]);
-			target[i] = libcore.clone(target[j]);
-			target[j] = item;
-		}
-	}
-
-/*
-	var index_list = [];
-	for (var i=0; i < source.length; i++)
-	{
-		index_list.push(i);
-	}
-
-
-	var target = [];
-	for (;;)
-	{
-		if (index_list.length === 0) break;
-
-		var index = libcore.rnd(0, index_list.length - 1);
-		target.push(libcore.clone(source[index_list[index]]));
-
-		index_list.splice(index, 1);
-	}
-*/
-
-	return target;
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * filter array elements
- * \param[in] source source array
- * \param[in] filter filter item
- * \param[in] flag_invert flag invert filtring
- * \param[in] flag_identity flag for enable hard identity
- * \return result array
- */
-function libcore__array_filter(source, filter, flag_invert, flag_identity)
-{
-	"use strict";
-
-	if ((source instanceof Array) === false)
-	{
-		return [];
-	}
-
-
-	if (typeof flag_invert !== 'boolean')
-	{
-		flag_invert = false;
-	}
-
-
-	var target = [];
-
-
-	if ((filter instanceof Array) === false)
-	{
-		for (var i = 0; i < source.length; i++)
-		{
-			var flag_cmp = libcore.cmp(source[i], filter, flag_identity);
-
-			if
-			(
-				((flag_cmp === true)  && (flag_invert === false)) ||
-				((flag_cmp === false) && (flag_invert === true))
-			)
-			{
-				target.push(source[i]);
-			}
-		}
+		target_date.setTime(0);
+		target_date.setHours(0);
+		target_date.setMinutes(0);
+		target_date.setSeconds(0);
+		target_date.setMilliseconds(0);
 	}
 	else
 	{
-		for (var i = 0; i < source.length; i++)
-		{
-			for (var j = 0; j < filter.length; j++)
-			{
-				var flag_cmp = libcore.cmp(source[i], filter[j], flag_identity);
+		target_date.setTime(source_date.getTime());
+		target_date.setHours(0);
+		target_date.setMinutes(0);
+		target_date.setSeconds(0);
+		target_date.setMilliseconds(0);
+	}
 
-				if
-				(
-					((flag_cmp === true)  && (flag_invert === false)) ||
-					((flag_cmp === false) && (flag_invert === true))
-				)
+	return target_date;
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * get whole age
+ * \param[in] date1 start date
+ * \param[in] date2 end date
+ * \return result whole age
+ */
+function libcore__get_age(date1, date2)
+{
+	if ((date1 instanceof Date) === false) return 1;
+	if ((date2 instanceof Date) === false) return 2;
+
+
+	if (date1 > date2)
+	{
+		var tmp = date2;
+		date2 = date1;
+		date1 = tmp;
+	}
+
+	if (date1.getFullYear() >= date2.getFullYear()) return 3;
+
+	var year1 = date1.getFullYear();
+	var year2 = date2.getFullYear();
+
+	var age = year2 - year1 - 1;
+
+	if (date1.getMonth()   < date2.getMonth())   return ++age;
+	if (date1.getMonth()   > date2.getMonth())   return age;
+
+	if (date1.getDate()    < date2.getDate())    return ++age;
+	if (date1.getDate()    > date2.getDate())    return age;
+
+	if (date1.getHours()   < date2.getHours())   return ++age;
+	if (date1.getHours()   > date2.getHours())   return age;
+
+	if (date1.getMinutes() < date2.getMinutes()) return ++age;
+	if (date1.getMinutes() > date2.getMinutes()) return age;
+
+	if (date1.getSeconds() < date2.getSeconds()) return ++age;
+	if (date1.getSeconds() > date2.getSeconds()) return age;
+
+	return ++age;
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * get current microtime
+ * \return microtime
+ */
+function libcore__get_microtime()
+{
+	"use strict";
+
+	var current_date = new Date();
+	return current_date.getTime();
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * convert month number to month name
+ * \param[in] month month number, for example 1 or '01'
+ * \param[in] flag_simple select simple or complex name
+ * \return month name
+ */
+function libcore__getmonthname(month, flag_simple)
+{
+	"use strict";
+
+	if (typeof flag_simple !== 'boolean')
+	{
+		flag_simple = false;
+	}
+
+	var month_int = 0;
+	if ((typeof month === 'number') || (typeof month === 'string'))
+	{
+		month_int = parseInt(month, 10);
+		if (isNaN(month_int) === true)
+		{
+			month_int = 0;
+		}
+	}
+	if (month_int > 12)
+	{
+		month_int = 0;
+	}
+
+	var month_list =
+	[
+		{ "rus" : { "complex" : 'Мартобря', "simple" : 'Мартобрь', "short" : '???' }, "eng" : { "complex" : 'Unknown',   "simple" : 'Unknown',   "short" : '???' } },
+		{ "rus" : { "complex" : 'Января',   "simple" : 'Январь',   "short" : 'Янв' }, "eng" : { "complex" : 'January',   "simple" : 'January',   "short" : 'Jan' } },
+		{ "rus" : { "complex" : 'Февраля',  "simple" : 'Февраль',  "short" : 'Фев' }, "eng" : { "complex" : 'February',  "simple" : 'February',  "short" : 'Feb' } },
+		{ "rus" : { "complex" : 'Марта',    "simple" : 'Март',     "short" : 'Мар' }, "eng" : { "complex" : 'March',     "simple" : 'March',     "short" : 'Mar' } },
+		{ "rus" : { "complex" : 'Апреля',   "simple" : 'Апрель',   "short" : 'Апр' }, "eng" : { "complex" : 'April',     "simple" : 'April',     "short" : 'Apr' } },
+		{ "rus" : { "complex" : 'Мая',      "simple" : 'Май',      "short" : 'Май' }, "eng" : { "complex" : 'May',       "simple" : 'May',       "short" : 'May' } },
+		{ "rus" : { "complex" : 'Июня',     "simple" : 'Июнь',     "short" : 'Июн' }, "eng" : { "complex" : 'June',      "simple" : 'June',      "short" : 'Jun' } },
+		{ "rus" : { "complex" : 'Июля',     "simple" : 'Июль',     "short" : 'Июл' }, "eng" : { "complex" : 'July',      "simple" : 'July',      "short" : 'Jul' } },
+		{ "rus" : { "complex" : 'Августа',  "simple" : 'Август',   "short" : 'Авг' }, "eng" : { "complex" : 'August',    "simple" : 'August',    "short" : 'Aug' } },
+		{ "rus" : { "complex" : 'Сентября', "simple" : 'Сентябрь', "short" : 'Сен' }, "eng" : { "complex" : 'September', "simple" : 'September', "short" : 'Sep' } },
+		{ "rus" : { "complex" : 'Октября',  "simple" : 'Октябрь',  "short" : 'Окт' }, "eng" : { "complex" : 'October',   "simple" : 'October',   "short" : 'Oct' } },
+		{ "rus" : { "complex" : 'Ноября',   "simple" : 'Ноябрь',   "short" : 'Ноя' }, "eng" : { "complex" : 'November',  "simple" : 'November',  "short" : 'Nov' } },
+		{ "rus" : { "complex" : 'Декабря',  "simple" : 'Декабрь',  "short" : 'Дек' }, "eng" : { "complex" : 'December',  "simple" : 'December',  "short" : 'Dec' } }
+	];
+
+
+	if (flag_simple === false)
+	{
+		return month_list[month_int].rus.complex.toLowerCase();
+	}
+
+	return month_list[month_int].rus.simple;
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * get current unixtime
+ * \return unixtime
+ */
+function libcore__get_unixtime()
+{
+	"use strict";
+
+	var unixtime = libcore.get_microtime() / 1000;
+
+	return unixtime;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * check whether a string is equivalent to regexp [-+]?[0-9]+
+ * \param[in] val string for check
+ * \return flag correct check
+ */
+function libcore__is_sint(val)
+{
+	"use strict";
+
+	if ((typeof val !== 'number') && (typeof val !== 'string'))
+	{
+		return false;
+	}
+
+	var str = String(val);
+
+	if (str.length === 0)
+	{
+		return false;
+	}
+
+	for (var i=0; i < str.length; i++)
+	{
+		if ((str[i] < '0') || (str[i] > '9'))
+		{
+			if (i === 0)
+			{
+				if ((str[i] === '-') || (str[i] === '+'))
 				{
-					target.push(source[i]);
+					continue;
 				}
 			}
+			return false;
 		}
 	}
 
-
-	return target;
+	return true;
 }
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * check whether a string is equivalent to regexp [+]?[0-9]+
+ * \param[in] val string for check
+ * \return flag correct check
+ */
+function libcore__is_uint(val)
+{
+	"use strict";
+
+	if ((typeof val !== 'number') && (typeof val !== 'string'))
+	{
+		return false;
+	}
+
+	var str = String(val);
+
+	if (str.length === 0)
+	{
+		return false;
+	}
+
+	for (var i=0; i < str.length; i++)
+	{
+		if ((str[i] < '0') || (str[i] > '9'))
+		{
+			if (i === 0)
+			{
+				if (str[i] === '+')
+				{
+					continue;
+				}
+			}
+			return false;
+		}
+	}
+
+	return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
  * draw json pretty
@@ -1142,269 +1124,203 @@ function libcore__jdraw(source, source_field, flag_shift, tab, max_width)
 	return body;
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
- * convert month number to month name
- * \param[in] month month number, for example 1 or '01'
- * \param[in] flag_simple select simple or complex name
- * \return month name
+ * show message on browser console
+ * \param[in] msg message
+ * \param[in] flag_enable turn on show
  */
-function libcore__getmonthname(month, flag_simple)
+function libcore__log(msg, flag_enable)
 {
 	"use strict";
 
-	if (typeof flag_simple !== 'boolean')
+	if (typeof console === "undefined")
 	{
-		flag_simple = false;
+		return;
 	}
 
-	var month_int = 0;
-	if ((typeof month === 'number') || (typeof month === 'string'))
+	if ((typeof flag_enable === 'boolean') && (flag_enable === false))
 	{
-		month_int = parseInt(month, 10);
-		if (isNaN(month_int) === true)
+		return;
+	}
+
+	console.log(msg);
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * find maximal number
+ * \param[in] val1 number one
+ * \param[in] val1 number two
+ * \return maximal number of number one and number two
+ */
+function libcore__max(val1, val2)
+{
+	"use strict";
+
+	if (val1 > val2)
+	{
+		return val1;
+	}
+
+	return val2;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * find minumal number
+ * \param[in] val1 number one
+ * \param[in] val1 number two
+ * \return minimal number of number one and number two
+ */
+function libcore__min(val1, val2)
+{
+	"use strict";
+
+	if (val1 < val2)
+	{
+		return val1;
+	}
+
+	return val2;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * get rnd number from min to max
+ * \param[in] min minimal number
+ * \param[in] max maximal number
+ * \return rnd number from min to max
+ */
+function libcore__rnd(min, max)
+{
+	"use strict";
+
+	if (min === max)
+	{
+		return min;
+	}
+
+	if (max < min)
+	{
+		var tmp = min;
+		min = max;
+		max = tmp;
+	}
+
+	if ((Math.floor(min) !== min) || (Math.floor(max) !== max))
+	{
+		return Math.random() * (max - min) + min;
+	}
+
+	var rnd = Math.floor(Math.random() * (max - min + 1)) + min;
+
+	return (rnd > max) ? max : rnd;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * sort array
+ * \param[in] input input array
+ * \param[in] sort_factor field name or sort function for array of objects
+ * \return sort array
+ */
+function libcore__sort(input, sort_factor)
+{
+	"use strict";
+
+	if ((input instanceof Array) === false)
+	{
+		return [];
+	}
+
+
+	var output = libcore.clone(input); // отвязываем массив
+
+
+	for (;;)
+	{
+		if (typeof sort_factor === "function")
 		{
-			month_int = 0;
+			output.sort(sort_factor);
+			break;
+		}
+
+
+		if (typeof sort_factor === "string")
+		{
+			output.sort(function(a, b)
+			{
+				if (a[sort_factor]  <  b[sort_factor])
+				{
+					return -1;
+				}
+
+				if (a[sort_factor]  >  b[sort_factor])
+				{
+					return 1;
+				}
+
+				if (a[sort_factor] === b[sort_factor])
+				{
+					return 0;
+				}
+			});
+			break;
+		}
+
+
+		output.sort();
+		break;
+	}
+
+
+	return output;
+
+
+/*
+	if ((input instanceof Array) === false)
+	{
+		return [];
+	}
+
+
+	if (typeof field_name !== "string")
+	{
+		var output = libcore.clone(input); // отвязываем массив
+		output.sort();
+		return output;
+	}
+
+
+	var output = [];
+	var input_free = libcore.clone(input); // отвязываем массив
+	var field_list = [];
+
+	for (var i=0; i < input_free.length; i++)
+	{
+		field_list.push(input_free[i][field_name]);
+	}
+	field_list = libcore__sort(field_list);
+
+	for (var i=0; i < field_list.length; i++)
+	{
+		for (var j=0; j < input_free.length; j++)
+		{
+			if (input_free[j][field_name] === field_list[i])
+			{
+				output.push(libcore.clone(input_free[j]));
+				input_free[j][field_name] = null;
+				break;
+			}
 		}
 	}
-	if (month_int > 12)
-	{
-		month_int = 0;
-	}
-
-	var month_list =
-	[
-		{ "rus" : { "complex" : 'Мартобря', "simple" : 'Мартобрь', "short" : '???' }, "eng" : { "complex" : 'Unknown',   "simple" : 'Unknown',   "short" : '???' } },
-		{ "rus" : { "complex" : 'Января',   "simple" : 'Январь',   "short" : 'Янв' }, "eng" : { "complex" : 'January',   "simple" : 'January',   "short" : 'Jan' } },
-		{ "rus" : { "complex" : 'Февраля',  "simple" : 'Февраль',  "short" : 'Фев' }, "eng" : { "complex" : 'February',  "simple" : 'February',  "short" : 'Feb' } },
-		{ "rus" : { "complex" : 'Марта',    "simple" : 'Март',     "short" : 'Мар' }, "eng" : { "complex" : 'March',     "simple" : 'March',     "short" : 'Mar' } },
-		{ "rus" : { "complex" : 'Апреля',   "simple" : 'Апрель',   "short" : 'Апр' }, "eng" : { "complex" : 'April',     "simple" : 'April',     "short" : 'Apr' } },
-		{ "rus" : { "complex" : 'Мая',      "simple" : 'Май',      "short" : 'Май' }, "eng" : { "complex" : 'May',       "simple" : 'May',       "short" : 'May' } },
-		{ "rus" : { "complex" : 'Июня',     "simple" : 'Июнь',     "short" : 'Июн' }, "eng" : { "complex" : 'June',      "simple" : 'June',      "short" : 'Jun' } },
-		{ "rus" : { "complex" : 'Июля',     "simple" : 'Июль',     "short" : 'Июл' }, "eng" : { "complex" : 'July',      "simple" : 'July',      "short" : 'Jul' } },
-		{ "rus" : { "complex" : 'Августа',  "simple" : 'Август',   "short" : 'Авг' }, "eng" : { "complex" : 'August',    "simple" : 'August',    "short" : 'Aug' } },
-		{ "rus" : { "complex" : 'Сентября', "simple" : 'Сентябрь', "short" : 'Сен' }, "eng" : { "complex" : 'September', "simple" : 'September', "short" : 'Sep' } },
-		{ "rus" : { "complex" : 'Октября',  "simple" : 'Октябрь',  "short" : 'Окт' }, "eng" : { "complex" : 'October',   "simple" : 'October',   "short" : 'Oct' } },
-		{ "rus" : { "complex" : 'Ноября',   "simple" : 'Ноябрь',   "short" : 'Ноя' }, "eng" : { "complex" : 'November',  "simple" : 'November',  "short" : 'Nov' } },
-		{ "rus" : { "complex" : 'Декабря',  "simple" : 'Декабрь',  "short" : 'Дек' }, "eng" : { "complex" : 'December',  "simple" : 'December',  "short" : 'Dec' } }
-	];
 
 
-	if (flag_simple === false)
-	{
-		return month_list[month_int].rus.complex.toLowerCase();
-	}
-
-	return month_list[month_int].rus.simple;
+	return output;
+*/
 }
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * strip date in date object
- * \param[in] source date object
- * \return result date object
- */
-function libcore__date_strip(source_date)
-{
-	"use strict";
-
-	var target_date = new Date();
-
-	if ((source_date instanceof Date) === false)
-	{
-		target_date.setTime(0);
-		target_date.setHours(0);
-		target_date.setMinutes(0);
-		target_date.setSeconds(0);
-		target_date.setMilliseconds(0);
-	}
-	else
-	{
-		target_date.setTime(source_date.getTime());
-		target_date.setHours(0);
-		target_date.setMinutes(0);
-		target_date.setSeconds(0);
-		target_date.setMilliseconds(0);
-	}
-
-	return target_date;
-}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * convert unixtime to user friedly text
- * \param[in] gmt_offset gmt offset
- * \param[in] unixtime unixtime
- * \return result user friedly text
- */
-function libcore__convert_date(gmt_offset, unixtime)
-{
-	"use strict";
-
-	unixtime = Number(unixtime);
-	if (isNaN(unixtime) === true)
-	{
-		unixtime = 0;
-	}
-
-
-	var date_day_now = new Date();
-	date_day_now = libcore.date_strip(date_day_now);
-
-	var date_day_prev = new Date();
-	date_day_prev.setTime(date_day_prev.getTime() - (60*60*24*1000));
-	date_day_prev = libcore.date_strip(date_day_prev);
-
-	var date_day_next = new Date();
-	date_day_next.setTime(date_day_next.getTime() + (60*60*24*1000));
-	date_day_next = libcore.date_strip(date_day_next);
-
-	var xdate = new Date();
-
-//alert(date_strip(date_now));
-
-	xdate.setTime((unixtime * 1000) + (gmt_offset * 60 * 60 * 1000) + (xdate.getTimezoneOffset() * 60 * 1000));
-
-
-//alert('xdate.getTime():' + xdate.getTime() + ', date_day_now.getTime():' + date_day_now.getTime() + ', date_day_next.getTime():' + date_day_next.getTime());
-	if
-	(
-		(xdate.getTime() > date_day_now.getTime()) &&
-		(xdate.getTime() < date_day_next.getTime())
-	)
-	{
-		var str = 'Сегодня&nbsp;в&nbsp;';
-
-		var hour = String(xdate.getHours())
-		if (hour.length === 1) hour = '0' + hour;
-		str = str + hour;
-
-		str = str + ':';
-
-		var min = String(xdate.getMinutes())
-		if (min.length === 1) min = '0' + min;
-		str = str + min;
-
-		return str;
-	}
-
-//alert('xdate.getTime():' + xdate.getTime() + ', date_day_now.getTime():' + date_day_now.getTime() + ', date_day_prev.getTime():' + date_day_prev.getTime());
-	if
-	(
-		(xdate.getTime() < date_day_now.getTime()) &&
-		(xdate.getTime() > date_day_prev.getTime())
-	)
-	{
-		var str = 'Вчера&nbsp;в&nbsp;';
-
-		var hour = String(xdate.getHours())
-		if (hour.length === 1) hour = '0' + hour;
-		str = str + hour;
-
-		str = str + ':';
-
-		var min = String(xdate.getMinutes())
-		if (min.length === 1) min = '0' + min;
-		str = str + min;
-
-		return str;
-	}
-
-
-	var str = '';
-	var day = String(xdate.getDate());
-	if (day.length === 1) day = '0' + day;
-	str = str + day;
-
-	str = str + '&nbsp;';
-
-	var month = String(xdate.getMonth() + 1);
-	if (month.length === 1) month = '0' + month;
-
-	str = str + libcore.getmonthname(month);
-
-
-	var year = xdate.getFullYear();
-	var year_now = date_day_now.getFullYear();
-
-	if (year !== year_now)
-	{
-		str = str + '&nbsp;';
-		str = str + year;
-	}
-
-
-//	str = str + ', ';
-//	str = str + date('H:i', strtotime($unixtime));
-
-
-	if (str === '30 ноября 1999, 00:00')
-	{
-		return 'unknown';
-	}
-
-
-	return str;
-}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * get whole age
- * \param[in] date1 start date
- * \param[in] date2 end date
- * \return result whole age
- */
-function libcore__get_age(date1, date2)
-{
-	if ((date1 instanceof Date) === false) return 1;
-	if ((date2 instanceof Date) === false) return 2;
-
-
-	if (date1 > date2)
-	{
-		var tmp = date2;
-		date2 = date1;
-		date1 = tmp;
-	}
-
-	if (date1.getFullYear() >= date2.getFullYear()) return 3;
-
-	var year1 = date1.getFullYear();
-	var year2 = date2.getFullYear();
-
-	var age = year2 - year1 - 1;
-
-	if (date1.getMonth()   < date2.getMonth())   return ++age;
-	if (date1.getMonth()   > date2.getMonth())   return age;
-
-	if (date1.getDate()    < date2.getDate())    return ++age;
-	if (date1.getDate()    > date2.getDate())    return age;
-
-	if (date1.getHours()   < date2.getHours())   return ++age;
-	if (date1.getHours()   > date2.getHours())   return age;
-
-	if (date1.getMinutes() < date2.getMinutes()) return ++age;
-	if (date1.getMinutes() > date2.getMinutes()) return age;
-
-	if (date1.getSeconds() < date2.getSeconds()) return ++age;
-	if (date1.getSeconds() > date2.getSeconds()) return age;
-
-	return ++age;
-}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-/**
- * shift date use timezone
- * \param[in] date date
- * \param[in] timezone timezone
- * \return result shifted date
- */
-function libcore__date_shift_timezone(date, timezone)
-{
-	var null_date = new Date(1970, 0, 1);
-	if ((date instanceof Date) === false) return null_date;
-	if (typeof timezone !== 'number') return null_date;
-
-	var total_ms = date.getTime();
-	date.setTime(total_ms + (timezone * 60 * 60 * 1000));
-
-	return date;
-}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 /**
  * convert from string to date
@@ -1461,3 +1377,117 @@ function libcore__str2date(str)
 	return new Date(year, month - 1, day, hour, min, sec);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * convert string to sint or return value_default
+ * \param[in] str input string
+ * \param[in] value_default default value
+ * \return sint
+ */
+function libcore__str2sint(str, value_default)
+{
+	"use strict";
+
+	if (typeof value_default !== 'number')
+	{
+		value_default = 0;
+	}
+	var value = value_default;
+
+	if (libcore.is_sint(str) === true)
+	{
+		value = parseInt(str, 10);
+	}
+
+	return value;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * convert string to uint or return value_default
+ * \param[in] str input string
+ * \param[in] value_default default value
+ * \return uint
+ */
+function libcore__str2uint(str, value_default)
+{
+	"use strict";
+
+	if (typeof value_default !== 'number')
+	{
+		value_default = 0;
+	}
+	var value = value_default;
+
+	if (libcore.is_uint(str) === true)
+	{
+		value = parseInt(str, 10);
+	}
+
+	return value;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * crop string
+ * \param[in] source string
+ * \param[in] limit length limit
+ * \return croped string
+ */
+function libcore__str_crop(source, limit)
+{
+	"use strict";
+
+	if (source.length < limit)
+	{
+		return source;
+	}
+
+	return source.substr(0, limit);
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+/**
+ * uniq array
+ * \param[in] input input array
+ * \param[in] sort_factor field name or sort function for array of objects
+ * \return uniq array
+ */
+function libcore__uniq(input, sort_factor)
+{
+	"use strict";
+
+	if ((input instanceof Array) === false)
+	{
+		return [];
+	}
+
+
+	var input_free = libcore.sort(input, sort_factor);
+
+
+// set value not equal input_free[0]
+	var value = false;
+	if (input_free.length !== 0)
+	{
+		if (input_free[0] === value)
+		{
+			value = true;
+		}
+	}
+
+
+	var output = [];
+	for (var i=0; i < input_free.length; i++)
+	{
+		if (libcore.cmp(value, input_free[i], true) === false)
+		{
+			value = input_free[i];
+			output.push(value);
+		}
+	}
+
+
+	return output;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//

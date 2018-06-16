@@ -7,23 +7,27 @@
 
 (function()
 {
-	var load = function(src)
+	function load(script_url)
 	{
-		var d = document, f = d.getElementsByTagName('script')[0],
-		s = d.createElement('script');
-		s.type = 'text/javascript'; s.async = true; s.src = src;
-		f.parentNode.insertBefore(s, f);
+		var element   = document.createElement('script');
+		element.type  = 'text/javascript';
+		element.async = true;
+		element.src   = script_url + '?time=' + (new Date()).getTime();
+
+		var sc = document.getElementsByTagName('script')[0];
+		if (sc)
+		{
+			sc.parentNode.insertBefore(element, sc);
+		}
+		else
+		{
+			document.documentElement.firstChild.appendChild(element);
+		}
 	}
 
-	var rnd = function()
-	{
-		return Math.floor(Math.random() * 99999999);
-	}
-
-	load('libcore.js?rnd=' + rnd());
-	load('libcore_test.js?rnd=' + rnd());
-
-}());
+	load('libcore.js');
+	load('libcore_test.js');
+})();
 
 //-->
 </script>
